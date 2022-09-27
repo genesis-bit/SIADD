@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\{tb_ano_academico};
-use app\Models\User;
+use app\Models\tb_ano_academico;
 
 
 class ano_academicoControlador extends Controller
@@ -21,7 +20,7 @@ class ano_academicoControlador extends Controller
     public function index()
     {
         
-        $ano_academico = User::get();
+        $ano_academico = tb_ano_academico::all();
         
        dd($ano_academico);
        echo "testando rotas!";
