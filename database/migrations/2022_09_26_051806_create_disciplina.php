@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_disciplina', function (Blueprint $table) {
+        Schema::create('disciplina', function (Blueprint $table) {
             $table->id();
             $table->string('descricao',30);
-            $table->unsignedBigInteger('professor_id');
-            $table->unsignedBigInteger('disciplina_id');
-            $table->foreign('professor_id')->references('id')->on('tb_professor');
-            $table->foreign('disciplina_id')->references('id')->on('tb_disciplina');
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_disciplina');
+        Schema::dropIfExists('disciplina');
     }
 };

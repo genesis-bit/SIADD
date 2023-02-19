@@ -5,11 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dimensao extends Model
+class dimensao extends Model
 {
+    protected $table='dimensao';
     use HasFactory;
-    protected $table='dimensaos';
-    protected $fillable=[
-        'descricao',
-    ]
 }

@@ -13,13 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_turma', function (Blueprint $table) {
+        Schema::create('turma', function (Blueprint $table) {
             $table->id();
             $table->string('descricao',30);
+            $table->unsignedBigInteger('curso_id');
+            $table->unsignedBigInteger('ano_lectivo_id');
             $table->unsignedBigInteger('ano_academico_id');
             $table->unsignedBigInteger('semestre_id');
-            $table->foreign('ano_academico_id')->references('id')->on('tb_ano_academico');
-            $table->foreign('semestre_id')->references('id')->on('tb_semestre');
+            $table->foreign('ano_academico_id')->references('id')->on('ano_academico');
+            $table->foreign('semestre_id')->references('id')->on('semestre');
+            $table->foreign('ano_lectivo_id')->references('id')->on('ano_lectivo');
+            $table->foreign('curso_id')->references('id')->on('curso');
         });
     }
 
@@ -30,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_turma');
+        Schema::dropIfExists('turma');
     }
 };

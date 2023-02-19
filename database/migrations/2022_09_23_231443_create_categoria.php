@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_categoria', function (Blueprint $table) {
+        Schema::create('categoria_profissional', function (Blueprint $table) {
             $table->id();
             $table->String('descricao',30);
-            $table->unsignedBigInteger('grau_academico_id');
-            $table->foreign('grau_academico_id')->references('id')->on('tb_grau_academico');
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_categoria');
+        Schema::dropIfExists('categoria_profissional');
     }
 };

@@ -5,12 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Caminho_comprovante extends Model
+class documento_comprovante extends Model
 {
+    protected $table='documento_comprovante';
     use HasFactory;
-    protected $table='documento_comprovantes';
-    protected $fillable=[
-        'caminho',
-        'descricao',
-    ];
 }

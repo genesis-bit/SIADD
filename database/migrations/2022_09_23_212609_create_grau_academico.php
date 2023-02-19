@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_grau_academico', function (Blueprint $table) {
+        Schema::create('grau_academico', function (Blueprint $table) {
             $table->id();
             $table->String('descricao',30);
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_grau_academico');
+        Schema::dropIfExists('grau_academico');
     }
 };

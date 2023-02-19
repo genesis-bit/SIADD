@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_curso', function (Blueprint $table) {
+        Schema::create('curso', function (Blueprint $table) {
             $table->id();
             $table->string('descricao',30);
-            $table->unsignedBigInteger('ano_lectivo_id');
-            $table->foreign('ano_lectivo_id')->references('id')->on('tb_ano_lectivo');
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_curso');
+        Schema::dropIfExists('curso');
     }
 };

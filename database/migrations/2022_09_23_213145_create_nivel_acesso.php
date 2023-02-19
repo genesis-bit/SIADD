@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_nivel_acesso', function (Blueprint $table) {
+        Schema::create('nivel_acesso', function (Blueprint $table) {
             $table->id();
             $table->String('descricao',30);
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_nivel_acesso');
+        Schema::dropIfExists('nivel_acesso');
     }
 };

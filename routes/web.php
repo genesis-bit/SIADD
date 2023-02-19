@@ -16,4 +16,3 @@ use App\Http\Controllers\ano_academicoControlador;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('ano_academico', [ano_academicoControlador::class, 'index']);
