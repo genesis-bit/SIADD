@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('estudante_id');
             $table->unsignedBigInteger('docente_id');
-            $table->unsignedBigInteger('avaliacao_id');
+            $table->unsignedBigInteger('periodo_avaliacao_id');
             $table->unsignedBigInteger('indicador_id');
-            $table->string('resposta',50);
+            $table->integer('escala');
             $table->foreign('estudante_id')->references('id')->on('estudante');
             $table->foreign('docente_id')->references('id')->on('docente');
-            $table->foreign('avaliacao_id')->references('id')->on('avaliacao');
-            $table->foreign('indicador_id')->references('id')->on('indicador');
+            $table->foreign('periodo_avaliacao_id')->references('id')->on('periodo_avaliacao');
+            $table->foreign('indicador_id')->references('id')->on('indicador_estudante');
             $table->timestamps();
         });
     }

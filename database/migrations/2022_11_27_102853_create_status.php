@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('estado_resposta', function (Blueprint $table) {
             $table->id();
-            $table->string('descricao',30);
+            $table->string('descricao',100);
         });
     }
 

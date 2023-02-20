@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('dimensao', function (Blueprint $table) {
             $table->id();
-            $table->String('descricao',30);
+            $table->text('descricao');
             $table->double('peso');
         });
     }

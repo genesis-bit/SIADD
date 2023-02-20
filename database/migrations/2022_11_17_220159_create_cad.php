@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('cad', function (Blueprint $table) {
             $table->id();
-            $table->String('descricao',30);
+            $table->String('descricao',100);
             $table->unsignedBigInteger('periodo_avaliacao_id');
             $table->foreign('periodo_avaliacao_id')->references('id')->on('periodo_avaliacao');
             $table->timestamps();

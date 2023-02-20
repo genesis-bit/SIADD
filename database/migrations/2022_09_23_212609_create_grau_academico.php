@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('grau_academico', function (Blueprint $table) {
             $table->id();
-            $table->String('descricao',30);
+            $table->String('descricao',100);
         });
     }
 

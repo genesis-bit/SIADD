@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('turma', function (Blueprint $table) {
             $table->id();
-            $table->string('descricao',30);
+            $table->string('descricao',100);
             $table->unsignedBigInteger('curso_id');
             $table->unsignedBigInteger('ano_lectivo_id');
             $table->unsignedBigInteger('ano_academico_id');

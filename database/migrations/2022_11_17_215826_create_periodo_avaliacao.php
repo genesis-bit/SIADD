@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('periodo_avaliacao', function (Blueprint $table) {
             $table->id();
-            $table->string('descricao');
+            $table->string('descricao',100);
         });
     }
 

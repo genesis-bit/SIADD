@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('categoria_profissional', function (Blueprint $table) {
             $table->id();
-            $table->String('descricao',30);
+            $table->String('descricao',100);
         });
     }
 
