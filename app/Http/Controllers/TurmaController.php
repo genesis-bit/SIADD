@@ -7,79 +7,41 @@ use Illuminate\Http\Request;
 
 class TurmaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
-        //
+        return turma::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
+   
     public function store(Request $request)
     {
-        //
+        $Turma=new turma;
+
+        $Turma->descricao= $request->desc;
+        $Turma->save();
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\turma  $turma
-     * @return \Illuminate\Http\Response
-     */
-    public function show(turma $turma)
+    
+    public function show(turma $id)
     {
-        //
+        return turma::findOrFail($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\turma  $turma
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(turma $turma)
+   
+    public function update(Request $request, $id)
     {
-        //
+        $Turma=turma::findOrFail($id);
+        $Turma->descricao = $request->descricao;
+        $Turma->update();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\turma  $turma
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, turma $turma)
+   
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\turma  $turma
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(turma $turma)
-    {
-        //
+        $Turma=turma::findOrFail($id);
+        $Turma->delete();
     }
 }

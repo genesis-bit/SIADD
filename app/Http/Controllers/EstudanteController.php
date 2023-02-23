@@ -7,79 +7,53 @@ use Illuminate\Http\Request;
 
 class EstudanteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        //
+        return estudante::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
+   
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nome'=>'required',
+            'n_processo'=>'required',
+            'n_BI'=>'required'
+        ]);
+        $Estudante=new estudante;
+        $Estudante->nome_estudante = $request->nome;
+        $Estudante->numero_processo = $request->n_processo;
+        $Estudante->numero_bilhete = $request->n_BI;
+        $Estudante->save();
+        return response()->json(['message'=>'estudante adicionado com sucesso']); 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\estudante  $estudante
-     * @return \Illuminate\Http\Response
-     */
-    public function show(estudante $estudante)
+   
+    public function show($id)
     {
-        //
+        return estudante::findOrFail($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\estudante  $estudante
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(estudante $estudante)
+   
+
+   
+    public function update(Request $request, $id)
     {
-        //
+       $Estudante=estudante::findOrFail($id);
+       $Estudante->nome_estudante= $request->nome;
+       $Estudante->numero_processo= $request->n_processo;
+       $Estudante->numero_bilhete= $request->n_BI;
+       $Estudante->update();
+       return response()->json(['message'=>'estudante atualizado com sucesso']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\estudante  $estudante
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, estudante $estudante)
+    
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\estudante  $estudante
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(estudante $estudante)
-    {
-        //
+        $Estudante= estudante::findOrFail($id);
+        $Estudante->delete();
+        return response()->json(['message'=>'estudante deletado']);
     }
 }

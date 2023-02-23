@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class parametro extends Model
 {
     protected $table='parametro';
+    
     use HasFactory;
 }

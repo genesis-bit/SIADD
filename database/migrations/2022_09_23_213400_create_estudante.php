@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('estudante', function (Blueprint $table) {
             $table->unsignedBigInteger('id');
-            $table->String('nome_estudante',100);
+            $table->string('nome_estudante',100);
             $table->Integer('numero_processo')->unique();
-            $table->String('numero_bilhete')->unique();
+            $table->string('numero_bilhete')->unique();
             $table->primary('id');
             $table->foreign('id')->references('id')->on('users');
             $table->timestamps();

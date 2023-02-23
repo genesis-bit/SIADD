@@ -7,79 +7,28 @@ use Illuminate\Http\Request;
 
 class CadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function index(){
+        return cad::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function show($id){
+        return cad::findOrFail($id);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        $Cad = new cad;
+        $Cad->descricao = $request->descricao;
+        $Cad->save();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\cad  $cad
-     * @return \Illuminate\Http\Response
-     */
-    public function show(cad $cad)
-    {
-        //
+    public function update(Request $request, $id){
+        $Cad = cad::findOrFail($id);
+        $Cad->descricao = $request->descricao;
+        $Cad->update();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\cad  $cad
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(cad $cad)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\cad  $cad
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, cad $cad)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\cad  $cad
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(cad $cad)
-    {
-        //
+    public function destroy($id){
+        $Cad = cad::findOrFail($id);
+        $Cad->delete();
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('ano_lectivo', function (Blueprint $table) {
             $table->id();
-            $table->String('descricao',100);
+            $table->string('descricao',100);
         });
     }
 

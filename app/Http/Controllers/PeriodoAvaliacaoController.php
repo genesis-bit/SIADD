@@ -7,79 +7,34 @@ use Illuminate\Http\Request;
 
 class PeriodoAvaliacaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+
+    public function index(){
+        return periodo_avaliaco::all();
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function show($id){
+        return periodo_avaliacao::findOrFail($id);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        $periodo = new periodo_avaliacao;
+        $periodo->descricao = $request->descricao;
+        $periodo->save();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\periodo_avaliacao  $periodo_avaliacao
-     * @return \Illuminate\Http\Response
-     */
-    public function show(periodo_avaliacao $periodo_avaliacao)
-    {
-        //
+    public function update(Request $request, $id){
+        $periodo =  periodo_avaliacao::findOrFail($id);
+        $periodo->descricao = $request->descricao;
+        $periodo->update();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\periodo_avaliacao  $periodo_avaliacao
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(periodo_avaliacao $periodo_avaliacao)
-    {
-        //
-    }
+    public function destroy($id){
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\periodo_avaliacao  $periodo_avaliacao
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, periodo_avaliacao $periodo_avaliacao)
-    {
-        //
-    }
+    $periodo = periodo_avaliacao::findOrFail($id);
+    $periodo->delete();
+}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\periodo_avaliacao  $periodo_avaliacao
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(periodo_avaliacao $periodo_avaliacao)
-    {
-        //
-    }
+
+    
 }

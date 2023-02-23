@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('nivel_acesso', function (Blueprint $table) {
             $table->id();
-            $table->String('descricao',100);
+            $table->string('descricao',100);
         });
     }
 
