@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('docente', function (Blueprint $table) {
             $table->unsignedBigInteger('id');
             $table->String('nome_docente', 100);
+            $table->string('numero_mecanografico',50)->unique();
             $table->unsignedBigInteger('unidade_organica_id');
+            $table->unsignedBigInteger('cargo_id');
             $table->unsignedBigInteger('departamento_id');
             $table->unsignedBigInteger('grau_academico_id');
             $table->unsignedBigInteger('categoria_profissional_id');
@@ -28,6 +30,7 @@ return new class extends Migration
             $table->foreign('categoria_profissional_id')->references('id')->on('categoria_profissional');
             $table->foreign('grau_academico_id')->references('id')->on('grau_academico');
             $table->foreign('percentagem_contratacao_id')->references('id')->on('percentagem_contratacao');
+            $table->foreign('cargo_id')->references('id')->on('cargo');
             $table->timestamps();
         });
     }

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreign('periodo_avaliacao_id')->references('id')->on('periodo_avaliacao');
             $table->foreign('indicador_id')->references('id')->on('indicador');
             $table->foreign('estado_resposta_id')->references('id')->on('estado_resposta');
+            $table->foreign('documento_comprovante_id')->references('id')->on('documento_comprovante');
             $table->timestamps();
         });
     }
