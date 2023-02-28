@@ -7,5 +7,7 @@ use Illuminate\Http\Request;
 
 class EstadoRespostaController extends Controller
 {
-    
+    public function index(){
+        return estado_resposta::all();
+    }
 }

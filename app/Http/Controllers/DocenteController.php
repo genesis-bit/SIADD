@@ -18,12 +18,14 @@ class DocenteController extends Controller
     public function store(Request $request){
         $Docente = new docente;
         $Docente->nome_docente = $request->nome_docente;
+        $Docente->numero_mecanografico = $request->n_mecanografico;
         $Docente->save();
     }
     
     public function update(Request $request, $id){
         $Docente = docente::findOrFail($id);
         $Docente->nome_docente = $request->nome_docente;
+        $Docente->numero_mecanografico = $request->n_mecanografico;
         $Docente->update();
     }
 

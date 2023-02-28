@@ -7,5 +7,10 @@ use Illuminate\Http\Request;
 
 class EstadoCadController extends Controller
 {
-    
+    public function index(){
+
+        return estado_cad::all();
+   
+    }
+
 }
