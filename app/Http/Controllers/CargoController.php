@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\estudante_avalia_docente;
+use App\Models\cargo;
 use Illuminate\Http\Request;
 
-class EstudanteAvaliaDocenteController extends Controller
+class CargoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class EstudanteAvaliaDocenteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\estudante_avalia_docente  $estudante_avalia_docente
+     * @param  \App\Models\cargo  $cargo
      * @return \Illuminate\Http\Response
      */
-    public function show(estudante_avalia_docente $estudante_avalia_docente)
+    public function show(cargo $cargo)
     {
         //
     }
@@ -52,10 +52,10 @@ class EstudanteAvaliaDocenteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\estudante_avalia_docente  $estudante_avalia_docente
+     * @param  \App\Models\cargo  $cargo
      * @return \Illuminate\Http\Response
      */
-    public function edit(estudante_avalia_docente $estudante_avalia_docente)
+    public function edit(cargo $cargo)
     {
         //
     }
@@ -64,10 +64,10 @@ class EstudanteAvaliaDocenteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\estudante_avalia_docente  $estudante_avalia_docente
+     * @param  \App\Models\cargo  $cargo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, estudante_avalia_docente $estudante_avalia_docente)
+    public function update(Request $request, cargo $cargo)
     {
         //
     }
@@ -75,15 +75,11 @@ class EstudanteAvaliaDocenteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\estudante_avalia_docente  $estudante_avalia_docente
+     * @param  \App\Models\cargo  $cargo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(estudante_avalia_docente $estudante_avalia_docente)
+    public function destroy(cargo $cargo)
     {
         //
-    }
-
-    public function docentesParaEstudante(int $estudante_id){
-        
     }
 }

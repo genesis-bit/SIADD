@@ -9,6 +9,7 @@ use App\Http\Controllers\AvaliadorHasAvaliacaoController;
 use App\Http\Controllers\CadController;
 use App\Http\Controllers\CadHasAvaliacaoController;
 use App\Http\Controllers\CadHasdocenteController;
+use App\Http\Controllers\CargoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DepartamentoController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\EstudanteController;
 use App\Http\Controllers\EstudanteHasDisciplinaController;
 use App\Http\Controllers\GrauAcademicoController;
 use App\Http\Controllers\IndicadorController;
+use App\Http\Controllers\IndicadorEstudanteController;
 use App\Http\Controllers\NivelAcessoController;
 use App\Http\Controllers\ParametroController;
 use App\Http\Controllers\PercentagemContratacaoController;
@@ -81,6 +83,8 @@ Route::resources([
                    'avaliadorAvaliacao'=>AvaliadorHasAvaliacaoController::class,
                    'docenteDisciplina'=>DocenteHasDisciplinaController::class,
                    'estudanteAvaliacao'=>EstudanteAvaliaDocenteController::class,
-                   'avaliador'=>AvaliadorController::class
+                   'avaliador'=>AvaliadorController::class,
+                   'cargo'=>CargoController::class,
+                   'indicadorEstudante'=>IndicadorEstudanteController::class
 
                 ]);
