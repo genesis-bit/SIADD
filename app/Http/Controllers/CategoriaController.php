@@ -20,7 +20,7 @@ class CategoriaController extends Controller
         $Categoria= new categoria;
         $Categoria->descricao= $request->descricao;
 
-        $categoria->save();
+        $Categoria->save();
     }
 
     
@@ -33,15 +33,15 @@ class CategoriaController extends Controller
      
     public function update(Request $request, $id)
     {
-        $categoria = categoria::findOrFail($id);
-        $categoria->descricao = $request->descricao;
+        $Categoria = categoria::findOrFail($id);
+        $Categoria->descricao = $request->descricao;
     }
 
    
     public function destroy($id)
     {
-        $categoria = categoria::findOrFail($id);
-        $categoria->delete();
+        $Categoria = categoria::findOrFail($id);
+        $Categoria->delete();
         
     }
 }
