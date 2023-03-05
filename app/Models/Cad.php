@@ -12,4 +12,8 @@ class cad extends Model
         'descricao'
     ];
     use HasFactory;
+
+    public function PeriodoAvaliacao(){
+        return $this->hasOne(periodo_avaliacao::class,'id','periodo_avaliacao_id');
+    }
 }

@@ -76,7 +76,6 @@ Route::resources([
                    'indicador'=>IndicadorController::class,
                    'cadDocente'=>CadHasdocenteController::class,
                    'documentoComprovante'=>DocumentoComprovanteController::class,
-                   'avaliacao'=>AvaliacaoController::class,
                    'estadoResposta'=>EstadoRespostaController::class,
                    'avaliacaoDocente'=>AvaliacaoHasDocenteController::class,
                    'cadAvaliacao'=>CadHasAvaliacaoController::class,

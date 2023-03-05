@@ -8,8 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class docente extends Model
 {
     protected $table='docente';
-    protected $fillable =[
-        'nome_docente'
-    ];
     use HasFactory;
+
+    public function user(){
+        return $this->hasOne(User::class,'id','id');
+    }
+    public function DocenteCad(){
+         return $this->belongsToMany(cad::class, 'cad_has_docente', 'docente_id', 'cad_id');
+    }
 }

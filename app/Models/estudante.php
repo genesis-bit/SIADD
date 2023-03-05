@@ -14,4 +14,7 @@ class estudante extends Model
         'numero_bilhete',
     ];
     use HasFactory;
+    public function user(){
+        return $this->hasOne(User::class,'id','id');
+    }
 }
