@@ -16,4 +16,7 @@ class docente extends Model
     public function DocenteCad(){
          return $this->belongsToMany(cad::class, 'cad_has_docente', 'docente_id', 'cad_id');
     }
+    public function RespostaDocente(){
+        return $this->hasMany(avaliacao_has_docente::class,'docente_id','id');
+    }
 }

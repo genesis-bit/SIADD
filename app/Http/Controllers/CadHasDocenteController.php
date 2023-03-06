@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\cad_has_docente;
 use App\Models\docente;
-use App\Models\periodo_avaliacao;
+use App\Models\estado_cad;
+use App\Models\cad;
 use Illuminate\Http\Request;
 
 class CadHasdocenteController extends Controller
@@ -16,7 +17,7 @@ class CadHasdocenteController extends Controller
      */
     public function index()
     {
-        //
+        return cad_has_docente::with(['Docente','Cad','estadoCad'])->get();
     }
 
     /**
@@ -27,9 +28,10 @@ class CadHasdocenteController extends Controller
     public function create()
     {
         //
-        $periodoAvaliacao = periodo_avaliacao::all();
+        $cad = cad::all();
         $docentes = docente::all();
-        return json_encode([$docentes, $periodoAvaliacao]);
+        $estadoCad = estado_cad::all();
+        return json_encode([$docentes, $cad, $estadoCad]);
     }
 
     /**
@@ -41,6 +43,11 @@ class CadHasdocenteController extends Controller
     public function store(Request $request)
     {
         //
+        $membroCad = new cad_has_docente();
+        $membroCad->cad_id = $request->cad_id;
+        $membroCad->docente_id = $request->docente_id;
+        $membroCad->estado_cad_id = $request->estado_cad_id;
+        return $membroCad->save()>0?"Salvo com sucesso":"Erro ao Salvar";
     }
 
     /**
@@ -52,6 +59,9 @@ class CadHasdocenteController extends Controller
     public function show(cad_has_docente $cad_has_docente)
     {
         //
+        $mc = cad_has_docente::where('cad_id','=',1)->where('docente_id','=',1)->get();
+        $mc->estado_cad_id = 2;
+        return $mc->save();
     }
 
     /**
