@@ -12,7 +12,12 @@ class CadController extends Controller
     }
 
     public function show($id){
-        return cad::findOrFail($id);
+        try{
+            return cad::findOrFail($id);
+        }catch(Exception $e){
+            return $e->getMassage();
+        }
+        
     }
 
     public function store(Request $request){
@@ -22,13 +27,25 @@ class CadController extends Controller
     }
 
     public function update(Request $request, $id){
-        $Cad = cad::findOrFail($id);
-        $Cad->descricao = $request->descricao;
-        $Cad->update();
+        try{
+            $Cad = cad::findOrFail($id);
+            $Cad->descricao = $request->descricao;
+            $Cad->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+
+        }catch(Exception $e){
+            return $e->getMessage();
+            
+        }
+        
     }
 
     public function destroy($id){
-        $Cad = cad::findOrFail($id);
-        $Cad->delete();
+        try{
+            $Cad = cad::findOrFail($id);
+            $Cad->delete()>0?"Deletado com sucesso":"Nao encontrado";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
     }
 }

@@ -26,22 +26,38 @@ class CategoriaController extends Controller
     
     public function show($id)
     {
-        return categoria::findOrFail($id);
+        try{
+            return categoria::findOrFail($id);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
     }
 
     
      
     public function update(Request $request, $id)
     {
-        $Categoria = categoria::findOrFail($id);
-        $Categoria->descricao = $request->descricao;
+        try{
+            $Categoria = categoria::findOrFail($id);
+            $Categoria->descricao = $request->descricao;
+            $Categoria->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
     }
 
    
     public function destroy($id)
     {
-        $Categoria = categoria::findOrFail($id);
-        $Categoria->delete();
+        try{
+            $Categoria = categoria::findOrFail($id);
+            $Categoria->delete()>0?"Deletado com sucesso":"Nao encontrado";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
         
     }
 }

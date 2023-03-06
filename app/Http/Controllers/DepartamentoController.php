@@ -24,22 +24,37 @@ class DepartamentoController extends Controller
     
     public function show($id)
     {
-        return departamento::findOrFail($id);
+        try{
+            return departamento::findOrFail($id);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
         
     }
 
     
     public function update(Request $request, $id)
     {
-        $Departamento = departamento::findOrFail($id);
-        $Departamento->descricao = $request->descricao;
-        $Departamento->update(); 
+        try{
+            $Departamento = departamento::findOrFail($id);
+            $Departamento->descricao = $request->descricao;
+            $Departamento->update()>0?"Atualizado com sucesso":"erro ao atualizar"; 
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+       
     }
 
     
     public function destroy($id)
     {
-       $Departamento = departamento::findOrFail($id);
-       $Departamento->delete(); 
+        try{
+            $Departamento = departamento::findOrFail($id);
+            $Departamento->delete()>0?"Deletado com sucesso":"Nao encontrado"; 
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+       
     }
 }

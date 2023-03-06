@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\turma;
 use Illuminate\Http\Request;
+use Exception;
 
 class TurmaController extends Controller
 {
@@ -27,21 +28,36 @@ class TurmaController extends Controller
     
     public function show(turma $id)
     {
-        return turma::findOrFail($id);
+        try{
+            return turma::findOrFail($id);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+       
     }
 
    
     public function update(Request $request, $id)
     {
-        $Turma=turma::findOrFail($id);
-        $Turma->descricao = $request->descricao;
-        $Turma->update();
+        try{
+            $Turma=turma::findOrFail($id);
+            $Turma->descricao = $request->descricao;
+            $Turma->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
     }
 
    
     public function destroy($id)
     {
-        $Turma=turma::findOrFail($id);
-        $Turma->delete();
+        try{
+            $Turma=turma::findOrFail($id);
+            $Turma->delete()>0?"Deletado com sucesso":"Nao encontrado";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+       
     }
 }
