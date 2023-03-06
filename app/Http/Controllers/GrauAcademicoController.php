@@ -13,7 +13,12 @@ class GrauAcademicoController extends Controller
     }
 
     public function show($id){
-        return grau_academico::findOrFail($id);
+        try{
+            return grau_academico::findOrFail($id);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
     }
 
     public function store(Request $request){
@@ -23,13 +28,23 @@ class GrauAcademicoController extends Controller
     }
 
     public function update(Request $request, $id){
-        $Grau = grau_academico::findOrFail($id);
-        $Grau->descricao = $request->description;
-        $Grau->update();
+        try{
+            $Grau = grau_academico::findOrFail($id);
+            $Grau->descricao = $request->description;
+            $Grau->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+       
     }
 
     public function destroy($id){
-        $Grau = grau_academico::findOrFail($id);
-        $Grau->delete();
+        try{
+            $Grau = grau_academico::findOrFail($id);
+            $Grau->delete()>0?"Deletado com sucesso":"Nao encontrado";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
     }
 }

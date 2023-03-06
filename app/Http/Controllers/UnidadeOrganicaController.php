@@ -24,7 +24,12 @@ class UnidadeOrganicaController extends Controller
     
     public function show($id)
     {
-        return unidade_organica::findOrFail($id);
+        try{
+            return unidade_organica::findOrFail($id);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+       
     }
 
     
@@ -32,15 +37,25 @@ class UnidadeOrganicaController extends Controller
     
     public function update($id)
     {
-        $Unidade = unidade_organica::findOrFail($id);
-        $Unidade->descricao = $request->descricao;
-        $Unidade->update();
+        try{
+            $Unidade = unidade_organica::findOrFail($id);
+            $Unidade->descricao = $request->descricao;
+            $Unidade->update()>0?"Atualizado com sucesso":"Erro ao atualizar";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
     }
 
    
     public function destroy($id)
     {
-        $Unidade = unidade_organica::findOrFail($id);
-        $Unidade->delete();
+        try{
+            $Unidade = unidade_organica::findOrFail($id);
+            $Unidade->delete()>0?"Deletado com sucesso":"Nao encontrado";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+       
     }
 }

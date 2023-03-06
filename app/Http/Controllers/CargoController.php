@@ -26,7 +26,12 @@ class CargoController extends Controller
     
     public function show($id)
     {
-        return cargo::findOrFail($id);
+        try{
+            return cargo::findOrFail($id);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
    
     }
 
@@ -34,17 +39,27 @@ class CargoController extends Controller
     
     public function update(Request $request, $id)
     {
-        $Cargo = cargo::findOrFail($id);
-        $Cargo->descricao = $request->descricao;
-        $Cargo->update();
+        try{
+            $Cargo = cargo::findOrFail($id);
+            $Cargo->descricao = $request->descricao;
+            $Cargo->update()>0?"Atualizado":"erro ao atualizar";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
         
     }
 
     
     public function destroy($id)
     {
-        $Cargo = cargo::findOrFail($id);
-        $Cargo->delete();
+        try{
+            $Cargo = cargo::findOrFail($id);
+            $Cargo->delete()>0?"Deletado com sucesso":"Nao encontrado";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
         
     }
 }
