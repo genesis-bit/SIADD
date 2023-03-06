@@ -19,9 +19,8 @@ class TurmaController extends Controller
     public function store(Request $request)
     {
         $Turma=new turma;
-
-        $Turma->descricao= $request->desc;
-        $Turma->save();
+        $Turma->descricao= $request->descricao;
+        return $Turma->save()>0?"Salvo com sucesso":"Erro ao salvar";
         
     }
 
@@ -42,7 +41,7 @@ class TurmaController extends Controller
         try{
             $Turma=turma::findOrFail($id);
             $Turma->descricao = $request->descricao;
-            $Turma->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+            return $Turma->update()>0?"Atualizado com sucesso":"erro ao atualizar";
         }catch(Exception $e){
             return $e->getMessage();
         }

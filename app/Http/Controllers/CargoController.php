@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\cargo;
 use Illuminate\Http\Request;
+use Exception;
 
 class CargoController extends Controller
 {
@@ -19,7 +20,7 @@ class CargoController extends Controller
     {
         $Cargo = new cargo;
         $Cargo->descricao = $request->descricao;
-        $Cargo->save();
+        return $Cargo->save()>0?"Salvo com sucesso":"Erro ao Salvar";
         
     }
 
@@ -42,7 +43,7 @@ class CargoController extends Controller
         try{
             $Cargo = cargo::findOrFail($id);
             $Cargo->descricao = $request->descricao;
-            $Cargo->update()>0?"Atualizado":"erro ao atualizar";
+            return $Cargo->update()>0?"Atualizado":"erro ao atualizar";
         }catch(Exception $e){
             return $e->getMessage();
         }
@@ -55,7 +56,7 @@ class CargoController extends Controller
     {
         try{
             $Cargo = cargo::findOrFail($id);
-            $Cargo->delete()>0?"Deletado com sucesso":"Nao encontrado";
+            return $Cargo->delete()>0?"Deletado com sucesso":"Nao encontrado";
         }catch(Exception $e){
             return $e->getMessage();
         }

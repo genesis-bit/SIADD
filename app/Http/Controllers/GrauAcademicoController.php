@@ -25,14 +25,14 @@ class GrauAcademicoController extends Controller
     public function store(Request $request){
         $Grau = new grau_academico;
         $Grau->descricao = $request->description;
-        $Grau->save();
+        return $Grau->save()>0?"Salvo com sucesso":"Erro ao Salvar";
     }
 
     public function update(Request $request, $id){
         try{
             $Grau = grau_academico::findOrFail($id);
             $Grau->descricao = $request->description;
-            $Grau->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+            return $Grau->update()>0?"Atualizado com sucesso":"erro ao atualizar";
         }catch(Exception $e){
             return $e->getMessage();
         }

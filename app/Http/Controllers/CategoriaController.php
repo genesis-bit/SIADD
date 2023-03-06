@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\categoria;
 use Illuminate\Http\Request;
+use Exception;
 
 class CategoriaController extends Controller
 {
@@ -19,8 +20,7 @@ class CategoriaController extends Controller
     {
         $Categoria= new categoria;
         $Categoria->descricao= $request->descricao;
-
-        $Categoria->save();
+        return $Categoria->save()>0?"Salvo com sucesso":"Erro ao Salvar";
     }
 
     
@@ -41,7 +41,7 @@ class CategoriaController extends Controller
         try{
             $Categoria = categoria::findOrFail($id);
             $Categoria->descricao = $request->descricao;
-            $Categoria->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+            return $Categoria->update()>0?"Atualizado com sucesso":"erro ao atualizar";
         }catch(Exception $e){
             return $e->getMessage();
         }
@@ -53,7 +53,7 @@ class CategoriaController extends Controller
     {
         try{
             $Categoria = categoria::findOrFail($id);
-            $Categoria->delete()>0?"Deletado com sucesso":"Nao encontrado";
+            return $Categoria->delete()>0?"Deletado com sucesso":"Nao encontrado";
         }catch(Exception $e){
             return $e->getMessage();
         }

@@ -20,6 +20,7 @@ class UnidadeOrganicaController extends Controller
     {
         $Unidade = new unidade_organica;
         $Unidade->descricao = $request->descricao;
+        return $Unidade->save()>0?"Adicionado com sucesso":"Erro ao Salvar";
     }
 
     
@@ -36,12 +37,12 @@ class UnidadeOrganicaController extends Controller
     
     
     
-    public function update($id)
+    public function update(request $request, $id)
     {
         try{
             $Unidade = unidade_organica::findOrFail($id);
             $Unidade->descricao = $request->descricao;
-            $Unidade->update()>0?"Atualizado com sucesso":"Erro ao atualizar";
+            return  $Unidade->update()>0?"Atualizado com sucesso":"Erro ao atualizar";
         }catch(Exception $e){
             return $e->getMessage();
         }
@@ -53,7 +54,7 @@ class UnidadeOrganicaController extends Controller
     {
         try{
             $Unidade = unidade_organica::findOrFail($id);
-            $Unidade->delete()>0?"Deletado com sucesso":"Nao encontrado";
+            return  $Unidade->delete()>0?"Deletado com sucesso":"Nao encontrado";
         }catch(Exception $e){
             return $e->getMessage();
         }

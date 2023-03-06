@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\departamento;
 use Illuminate\Http\Request;
+use Exception;
 
 class DepartamentoController extends Controller
 {
@@ -18,7 +19,7 @@ class DepartamentoController extends Controller
     {
         $Departamento = new departamento;
         $Departamento->descricao = $request->descricao;
-        $Departamento->save(); 
+        return $Departamento->save()>0?"Salvo com sucesso":"Erro ao Salvar"; 
     }
 
     
@@ -39,7 +40,7 @@ class DepartamentoController extends Controller
         try{
             $Departamento = departamento::findOrFail($id);
             $Departamento->descricao = $request->descricao;
-            $Departamento->update()>0?"Atualizado com sucesso":"erro ao atualizar"; 
+            return $Departamento->update()>0?"Atualizado com sucesso":"erro ao atualizar"; 
         }catch(Exception $e){
             return $e->getMessage();
         }
@@ -51,7 +52,7 @@ class DepartamentoController extends Controller
     {
         try{
             $Departamento = departamento::findOrFail($id);
-            $Departamento->delete()>0?"Deletado com sucesso":"Nao encontrado"; 
+            return $Departamento->delete()>0?"Deletado com sucesso":"Nao encontrado"; 
         }catch(Exception $e){
             return $e->getMessage();
         }

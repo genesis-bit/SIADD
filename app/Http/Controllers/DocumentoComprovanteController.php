@@ -11,14 +11,14 @@ class DocumentoComprovanteController extends Controller
     public function store(Request $request){
         $Doc = new documento_comprovante;
         $Doc->descricao = $request->descricao;
-        $Doc->save();
+        return $Doc->save()>0?"Salvo com sucesso":"Erro ao Salvar";
     }
 
     public function update(Request $request, $id){
         try{
             $Doc =  documento_comprovante::findOrFail($id);
             $Doc->descricao = $request->descricao;
-            $Doc->update()>0?"Atualizado com sucesso":"erro atualizar";
+            return $Doc->update()>0?"Atualizado com sucesso":"erro atualizar";
         }catch(Exception $e){
             return $e->getMessage();
         }
