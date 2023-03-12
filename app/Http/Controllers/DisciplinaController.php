@@ -22,7 +22,7 @@ class DisciplinaController extends Controller
         try{
             return disciplina::findOrFail($id);
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400); 
         }
         
     }
@@ -32,7 +32,7 @@ class DisciplinaController extends Controller
                 $Disciplina = new disciplina;
                 $Disciplina->descricao = $request->descricao;
                 $Disciplina->timestamps = false;           
-                return $Disciplina->save()>0? response()->json(null, 201):""; 
+                return $Disciplina->save()>0? response()->json("Salvo com sucesso", 201):""; 
 
         }
         catch(Exception $e){
@@ -45,9 +45,9 @@ class DisciplinaController extends Controller
         try{
             $Disciplina = disciplina::findOrFail($id);
             $Disciplina->descricao = $request->descricao;
-            return $Disciplina->update()>0?"atualizado com sucesso":"erro ao atualizar"; 
+            return $Disciplina->update()>0? response()->json("atualizado com sucesso", 200):""; 
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400); 
         }
          
     }
@@ -55,9 +55,9 @@ class DisciplinaController extends Controller
     public function destroy($id){
         try{
             $Disciplina = disciplina::findOrFail($id);
-            return $Disciplina->delete()>0?"Deletado com sucesso":"Nao encontrado"; 
+            return $Disciplina->delete()>0? response()->json("Deletado com sucesso", 200):""; 
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400); 
         }
         
     }
