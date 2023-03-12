@@ -86,7 +86,8 @@ class DocenteController extends Controller
                 $Docente->grau_academico_id = $request->grau_academico_id;
                 $Docente->categoria_profissional_id = $request->categoria_profissional_id;
                 $Docente->percentagem_contratacao_id = $request->percentagem_contratacao_id;
-                return $Docente->update()>0?"Atualizado com sucesso":"Erro ao atualizar";
+                $Docente->timestamps = false;
+                return $Docente->update()>0? response()->json("Atualizado com sucesso", 200):"";
         }
         catch(Exception $e){
                  return response()->json($e->getMessage(), 400);
@@ -96,8 +97,9 @@ class DocenteController extends Controller
     public function destroy ($id){
         try{
             $Docente = docente::findOrFail($id);
-            return $Docente->delete()>0?"Deletado com sucesso":"Erro ao Deletar";
+            return $Docente->delete()>0? response()->json("Deletado com sucesso", 200):"";
         }catch(Exception $e){
+            return response()->json($e->getMessage(), 400);
             return response()->json($e->getMessage(), 400);
         }
     }

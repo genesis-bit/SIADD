@@ -17,9 +17,14 @@ class DepartamentoController extends Controller
     
     public function store(Request $request)
     {
-        $Departamento = new departamento;
-        $Departamento->descricao = $request->descricao;
-        return $Departamento->save()>0?"Salvo com sucesso":"Erro ao Salvar"; 
+        try{
+            $Departamento = new departamento;
+            $Departamento->descricao = $request->descricao;
+            return $Departamento->save()>0?response()->json("Salvo com sucesso", 201):""; ; 
+        }catch(Exception $e){
+            return response()->json($e->getMessage(), 400); 
+        }
+       
     }
 
     
@@ -40,9 +45,9 @@ class DepartamentoController extends Controller
         try{
             $Departamento = departamento::findOrFail($id);
             $Departamento->descricao = $request->descricao;
-            return $Departamento->update()>0?"Atualizado com sucesso":"erro ao atualizar"; 
+            return $Departamento->update()>0?response()->json("Atualizado com sucesso", 201):""; ; 
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->Message(), 200);
         }
        
     }
@@ -52,9 +57,9 @@ class DepartamentoController extends Controller
     {
         try{
             $Departamento = departamento::findOrFail($id);
-            return $Departamento->delete()>0?"Deletado com sucesso":"Nao encontrado"; 
+            return $Departamento->delete()>0?response()->json("Deletado com sucesso", 200):""; 
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400);
         }
        
     }

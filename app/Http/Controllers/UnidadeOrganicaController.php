@@ -18,9 +18,15 @@ class UnidadeOrganicaController extends Controller
     
     public function store(Request $request)
     {
-        $Unidade = new unidade_organica;
-        $Unidade->descricao = $request->descricao;
-        return $Unidade->save()>0?"Adicionado com sucesso":"Erro ao Salvar";
+        try{
+            $Unidade = new unidade_organica;
+            $Unidade->descricao = $request->descricao;
+            $Unidade->timestamps= false;
+            return $Unidade->save()>0? response()->json("Adicionado com suceso", 201):"";
+        }catch(Exception $e){
+            return response()->json($e->getMessage(), 400);
+        }
+        
     }
 
     
@@ -42,9 +48,10 @@ class UnidadeOrganicaController extends Controller
         try{
             $Unidade = unidade_organica::findOrFail($id);
             $Unidade->descricao = $request->descricao;
-            return  $Unidade->update()>0?"Atualizado com sucesso":"Erro ao atualizar";
+            $Unidade->timestamps= false;
+            return  $Unidade->update()>0? response()->json("Atualizado com sucesso", 200):"";
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400);
         }
         
     }
@@ -54,9 +61,9 @@ class UnidadeOrganicaController extends Controller
     {
         try{
             $Unidade = unidade_organica::findOrFail($id);
-            return  $Unidade->delete()>0?"Deletado com sucesso":"Nao encontrado";
+            return  $Unidade->delete()>0? response()->json("Deletado com sucesso", 200):"";
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400);
         }
        
     }
