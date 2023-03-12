@@ -18,17 +18,23 @@ class EstudanteController extends Controller
    
     public function store(Request $request)
     {
-        $request->validate([
-            'nome'=>'required',
-            'n_processo'=>'required',
-            'n_BI'=>'required'
-        ]);
-        $Estudante=new estudante;
-        $Estudante->nome_estudante = $request->nome;
-        $Estudante->numero_processo = $request->n_processo;
-        $Estudante->numero_bilhete = $request->n_BI;
-        $Estudante->save();
-        return response()->json(['message'=>'estudante adicionado com sucesso']); 
+        try{
+            $request->validate([
+                'nome'=>'required',
+                'n_processo'=>'required',
+                'n_BI'=>'required'
+            ]);
+            $Estudante=new estudante;
+            $Estudante->nome_estudante = $request->nome;
+            $Estudante->numero_processo = $request->n_processo;
+            $Estudante->numero_bilhete = $request->n_BI;
+            $Estudante->timestamps = false;
+            return $Estudante->save()>0? response()->json("Cadastrado com sucesso", 201):"";
+            
+        }catch(Exception $e){
+            return response()->json($e->getMessage(), 400);
+        }
+        
     }
 
    
@@ -52,10 +58,11 @@ class EstudanteController extends Controller
             $Estudante->nome_estudante= $request->nome;
             $Estudante->numero_processo= $request->n_processo;
             $Estudante->numero_bilhete= $request->n_BI;
-            $Estudante->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+            $Estudante->timestamps = false;
+            $Estudante->update()>0? response()->json("Atualizado com sucesso", 200):"";
             
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400);
         }
       
     }
@@ -65,10 +72,10 @@ class EstudanteController extends Controller
     {
         try{
             $Estudante= estudante::findOrFail($id);
-            $Estudante->delete()>0?"Deletado com sucesso":"Nao encontrado";
+            $Estudante->delete()>0? response()->json("Deletado com sucesso", 200):"";
             
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400);
         }
        
     }

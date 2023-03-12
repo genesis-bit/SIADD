@@ -24,18 +24,24 @@ class CursoController extends Controller
 
    public function store(Request $request){
     $Curso = new curso;
-    $Curso->descricao = $request->descr;
-    $Curso-> save();
-    return response()->json(['message'=>'cadastrado']);
+    try{
+      $Curso->descricao = $request->descr;
+      $Curso->timestamps = false;
+      return $Curso-> save()>0? response()->json("curso cadastrado com sucesso", 201):"";
+      
+    }catch(Exception $e){
+      return response()->json($e->getMessage(), 400);
+    }
+   
    }
 
    public function update(Request $request, $id){
       try{
          $Curso = curso::findOrFail($id);
          $Curso->descricao = $request->descr;
-         $Curso->update()>0?"Atualizado com sucesso":"erro ao atualizar";
+         return $Curso->update()>0? response()->json("atualizado com sucesso", 200):"";
       }catch(Exception $e){
-         return $e->getMessage();
+         return response()->json($e-getMessage(), 400);
       }
     
    }
@@ -43,9 +49,9 @@ class CursoController extends Controller
    public function destroy($id){
       try{
          $Curso = curso::findOrFail($id);
-         $Curso->delete()>0?"Deletado com sucesso":"Nao encontrado";
+         return $Curso->delete()>0? response()->json("deletado com sucesso", 200):"";
       }catch(Exception $e){
-         return $e->getMessage();
+         return response()->json($e->getMessage(), 400);
       }
 
     

@@ -43,19 +43,24 @@ class DocenteController extends Controller
     }
 
     public function store(Request $request){
-        $Docente = new docente;
-        $Docente->id = $request->id;
-        $Docente->nome_docente = $request->nome_docente;
-        $Docente->numero_mecanografico = $request->numero_mecanografico;
-        $Docente->unidade_organica_id = $request->unidade_organica_id;
-        $Docente->cargo_id = $request->cargo_id;
-        $Docente->departamento_id = $request->departamento_id;
-        $Docente->grau_academico_id = $request->grau_academico_id;
-        $Docente->categoria_profissional_id = $request->categoria_profissional_id;
-        $Docente->percentagem_contratacao_id = $request->percentagem_contratacao_id;
-        if($Docente->save())
-            return json_encode('Adicionado com sucesso');
-        return json_encode('Falha ao Salvar');
+        try{
+            $Docente = new docente;
+            $Docente->id = $request->id;
+            $Docente->nome_docente = $request->nome_docente;
+            $Docente->numero_mecanografico = $request->numero_mecanografico;
+            $Docente->unidade_organica_id = $request->unidade_organica_id;
+            $Docente->cargo_id = $request->cargo_id;
+            $Docente->departamento_id = $request->departamento_id;
+            $Docente->grau_academico_id = $request->grau_academico_id;
+            $Docente->categoria_profissional_id = $request->categoria_profissional_id;
+            $Docente->percentagem_contratacao_id = $request->percentagem_contratacao_id;
+            $Docente->timestamps = false;
+            return $Docente->save()>0? response()->json("Cadastrado com sucesso", 201):"";
+        }catch(Exception $e){
+            return response()->json($e->getMessage(), 400);
+        }
+        
+        
     }
     
     public function update(Request $request, $id){
@@ -69,19 +74,20 @@ class DocenteController extends Controller
                 $Docente->grau_academico_id = $request->grau_academico_id;
                 $Docente->categoria_profissional_id = $request->categoria_profissional_id;
                 $Docente->percentagem_contratacao_id = $request->percentagem_contratacao_id;
-                return $Docente->update()>0?"Atualizado com sucesso":"Erro ao atualizar";
+                $Docente->timestamps = false;
+                return $Docente->update()>0? response()->json("Atualizado com sucesso", 200):"";
         }
         catch(Exception $e){
-                return $e->getMessage();
+                return response()->json($e->getMessage(), 400);
         }
     }
 
     public function destroy ($id){
         try{
             $Docente = docente::findOrFail($id);
-            return $Docente->delete()>0?"Deletado com sucesso":"Erro ao Deletar";
+            return $Docente->delete()>0? response()->json("Deletado com sucesso", 200):"";
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(), 400);
         }
     }
     public function RespostaPorPerguntas($id){    
