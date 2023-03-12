@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('parametro', function (Blueprint $table) {
             $table->id();
-            $table->text('descricao');
+            $table->text('descricao')->unique();
             $table->double('peso');
             $table->unsignedBigInteger('dimensao_id');
             $table->foreign('dimensao_id')->references('id')->on('dimensao');

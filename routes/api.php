@@ -33,6 +33,7 @@ use App\Http\Controllers\PeriodoAvaliacaoController;
 use App\Http\Controllers\SemestreController;
 use App\Http\Controllers\TurmaController;
 use App\Http\Controllers\UnidadeOrganicaController;
+use App\Models\avaliador_has_avaliacao;
 use App\Models\turma_has_estudante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/resposta/{id}',[DocenteController::class,'RespostaPorPerguntas']);
+//Route::post('/validar',[AvaliadorHasAvaliacaoController::class,'ValidarResposta']);
 Route::resources([
                    'grauAcademico'=>GrauAcademicoController::class,
                    'nivelAcesso'=>NivelAcessoController::class,

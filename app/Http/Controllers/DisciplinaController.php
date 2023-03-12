@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\disciplina;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Http\Response;
 
 class DisciplinaController extends Controller
 {
     public function index(){
-        return disciplina::all();
+        try{
+            return disciplina::all();
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(), 400); 
+        }
     }
 
     public function show($id){
@@ -22,9 +28,17 @@ class DisciplinaController extends Controller
     }
 
     public function store(Request $request){
-        $Disciplina = new disciplina;
-        $Disciplina->descricao = $request->descricao;
-        return $Disciplina->save()>0?"Salvo com sucesso":"Erro ao Salvar";  
+        try{
+                $Disciplina = new disciplina;
+                $Disciplina->descricao = $request->descricao;
+                $Disciplina->timestamps = false;           
+                return $Disciplina->save()>0? response()->json(null, 201):""; 
+
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(), 400); 
+        }
+      
     }
 
     public function update(Request $request, $id){

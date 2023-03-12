@@ -10,4 +10,7 @@ class parametro extends Model
     protected $table='parametro';
     
     use HasFactory;
+    public function dimensao(){
+        return $this->hasOne(dimensao::class,'id','dimensao_id');
+    }
 }

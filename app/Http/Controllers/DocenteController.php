@@ -46,7 +46,7 @@ class DocenteController extends Controller
         $Docente = new docente;
         $Docente->id = $request->id;
         $Docente->nome_docente = $request->nome_docente;
-        $Docente->numero_mecanografico = $request->n_mecanografico;
+        $Docente->numero_mecanografico = $request->numero_mecanografico;
         $Docente->unidade_organica_id = $request->unidade_organica_id;
         $Docente->cargo_id = $request->cargo_id;
         $Docente->departamento_id = $request->departamento_id;

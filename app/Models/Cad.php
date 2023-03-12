@@ -16,4 +16,7 @@ class cad extends Model
     public function PeriodoAvaliacao(){
         return $this->hasOne(periodo_avaliacao::class,'id','periodo_avaliacao_id');
     }
+    public function DocenteCad(){
+        return $this->belongsToMany(docente::class, 'cad_has_docente', 'cad_id', 'docente_id');
+   }
 }

@@ -22,6 +22,7 @@ class AnoLectivoController extends Controller
     {
         $anoLectivo = new ano_lectivo;
         $anoLectivo->descricao = $request->descricao;
+        $anoLectivo->timestamps = false;
         return $anoLectivo->save()>0?"Salvo com sucesso":"Erro ao Salvar";
     }
 
@@ -42,6 +43,7 @@ class AnoLectivoController extends Controller
         try{
             $anoLectivo = ano_lectivo::findOrFail($id);
             $anoLectivo->descricao = $request->descricao;
+            $anoLectivo->timestamps = false;
             return $anoLectivo->update()>0?"Atualizado com sucesso":"erro ao atualizar"; 
         }catch(Exception $e){
             return $e->getMessage();

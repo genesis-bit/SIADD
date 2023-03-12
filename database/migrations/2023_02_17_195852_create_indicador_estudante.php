@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('indicador_estudante', function (Blueprint $table) {
             $table->id();
-            $table->String('descricao',100);
+            $table->text('descricao')->unique();
             $table->unsignedBigInteger('parametro_id');
             $table->foreign('parametro_id')->references('id')->on('parametro');
             $table->timestamps();
