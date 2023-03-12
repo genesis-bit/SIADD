@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('estado_cad', function (Blueprint $table) {
             $table->id();
-            $table->String('descricao',100);
+            $table->String('descricao',100)->unique();
         });
     }
 

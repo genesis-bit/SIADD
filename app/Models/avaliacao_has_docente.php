@@ -9,4 +9,13 @@ class avaliacao_has_docente extends Model
 {
     protected $table='avaliacao_has_docente';
     use HasFactory;
+    public function docente(){
+        return $this->hasOne(docente::class,'id','docente_id');
+    }
+    public function estadoResposta(){
+        return $this->hasOne(estado_resposta::class,'id','estado_resposta_id');
+    }
+    public function indicador(){
+        return $this->hasOne(indicador::class,'id','indicador_id');
+    }
 }

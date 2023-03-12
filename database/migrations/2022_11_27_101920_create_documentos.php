@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('documento_comprovante', function (Blueprint $table) {
             $table->id();
-            $table->string('descricao',100);
+            $table->text('descricao')->unique();
             $table->binary('documento');
             $table->timestamps();
         });

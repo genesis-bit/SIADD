@@ -9,4 +9,7 @@ class indicador extends Model
 {
     protected $table='indicador';
     use HasFactory;
+    public function parametro(){
+        return $this->hasOne(parametro::class,'id','parametro_id');
+    }
 }

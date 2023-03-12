@@ -10,7 +10,6 @@ class SemestreController extends Controller
    
     public function index()
     {
-        
         $semestre = semestre::all();
         return json_encode($semestre);
     }
