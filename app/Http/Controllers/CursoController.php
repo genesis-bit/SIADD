@@ -23,14 +23,14 @@ class CursoController extends Controller
    }
 
    public function store(Request $request){
-    $Curso = new curso;
     try{
-      $Curso->descricao = $request->descr;
-      $Curso->timestamps = false;
-      return $Curso-> save()>0? response()->json("curso cadastrado com sucesso", 201):"";
-      
-    }catch(Exception $e){
-      return response()->json($e->getMessage(), 400);
+         $Curso = new curso;
+         $Curso->descricao = $request->descricao;
+         $Curso->timestamps = false;
+         return $Curso-> save()>0? response()->json("curso cadastrado com sucesso", 201):"";
+      }
+       catch(Exception $e){
+          return response()->json($e->getMessage(), 400);
     }
    
    }
@@ -41,7 +41,7 @@ class CursoController extends Controller
          $Curso->descricao = $request->descr;
          return $Curso->update()>0? response()->json("atualizado com sucesso", 200):"";
       }catch(Exception $e){
-         return response()->json($e-getMessage(), 400);
+         return response()->json($e->getMessage(), 400);
       }
     
    }

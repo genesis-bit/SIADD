@@ -20,6 +20,7 @@ class CategoriaController extends Controller
     {
         $Categoria= new categoria;
         $Categoria->descricao= $request->descricao;
+        $Categoria->timestamps = false;
         return $Categoria->save()>0?"Salvo com sucesso":"Erro ao Salvar";
     }
 
@@ -41,6 +42,7 @@ class CategoriaController extends Controller
         try{
             $Categoria = categoria::findOrFail($id);
             $Categoria->descricao = $request->descricao;
+            $Categoria->timestamps = false;
             return $Categoria->update()>0?"Atualizado com sucesso":"erro ao atualizar";
         }catch(Exception $e){
             return $e->getMessage();

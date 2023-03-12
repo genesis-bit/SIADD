@@ -17,15 +17,21 @@ class GrauAcademicoController extends Controller
         try{
             return grau_academico::findOrFail($id);
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(),400);
         }
         
     }
 
     public function store(Request $request){
+        try{
         $Grau = new grau_academico;
-        $Grau->descricao = $request->description;
-        return $Grau->save()>0?"Salvo com sucesso":"Erro ao Salvar";
+        $Grau->descricao = $request->descricao;
+        $Grau->timestamps = false;
+        return $Grau->save()>0?response()->json("Salvo com sucesso",201):"Erro ao Salvar";
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
 
     public function update(Request $request, $id){
@@ -34,7 +40,7 @@ class GrauAcademicoController extends Controller
             $Grau->descricao = $request->description;
             return $Grau->update()>0?"Atualizado com sucesso":"erro ao atualizar";
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(),400);
         }
        
     }
@@ -44,7 +50,7 @@ class GrauAcademicoController extends Controller
             $Grau = grau_academico::findOrFail($id);
             $Grau->delete()>0?"Deletado com sucesso":"Nao encontrado";
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage(),400);
         }
         
     }

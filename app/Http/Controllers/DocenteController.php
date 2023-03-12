@@ -56,6 +56,7 @@ class DocenteController extends Controller
             $User->nivel_acesso_id = $request->nivel_acesso_id;
             $User->password = $request->password;
             if($User->save()){
+                //Salvar Docente
                 $Id_user = User::all()->last();          
                 $Docente = new docente;
                 $Docente->id =  $Id_user["id"];
@@ -86,7 +87,6 @@ class DocenteController extends Controller
                 $Docente->grau_academico_id = $request->grau_academico_id;
                 $Docente->categoria_profissional_id = $request->categoria_profissional_id;
                 $Docente->percentagem_contratacao_id = $request->percentagem_contratacao_id;
-                $Docente->timestamps = false;
                 return $Docente->update()>0? response()->json("Atualizado com sucesso", 200):"";
         }
         catch(Exception $e){

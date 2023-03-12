@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\estudante;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -16,25 +17,27 @@ class EstudanteController extends Controller
 
     
    
-    public function store(Request $request)
-    {
+    public function store(Request $request){    
         try{
-            $request->validate([
-                'nome'=>'required',
-                'n_processo'=>'required',
-                'n_BI'=>'required'
-            ]);
-            $Estudante=new estudante;
-            $Estudante->nome_estudante = $request->nome;
-            $Estudante->numero_processo = $request->n_processo;
-            $Estudante->numero_bilhete = $request->n_BI;
-            $Estudante->timestamps = false;
-            return $Estudante->save()>0? response()->json("Cadastrado com sucesso", 201):"";
-            
-        }catch(Exception $e){
-            return response()->json($e->getMessage(), 400);
+            $User = new User();
+            $User->name = $request->nome;
+            $User->email = $request->email;
+            $User->nivel_acesso_id = $request->nivel_acesso_id;
+            $User->password = $request->password;
+            if($User->save()){
+                //Salvar Docente
+                $Id_user = User::all()->last(); 
+                $Estudante=new estudante;
+                $Estudante->id = $Id_user["id"];
+                $Estudante->nome_estudante = $request->nome;
+                $Estudante->numero_processo = $request->n_processo;
+                $Estudante->numero_bilhete = $request->n_BI;
+                return $Estudante->save()>0? response()->json("Cadastrado com sucesso", 201):"";
+            }
         }
-        
+        catch(Exception $e){
+             return response()->json($e->getMessage(), 400); 
+         }
     }
 
    
