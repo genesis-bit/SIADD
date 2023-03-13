@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('percentagem_contratacao', function (Blueprint $table) {
             $table->id();
             $table->string('descricao',100)->unique();
+            $table->integer('percentagem');
         });
     }
 

@@ -20,10 +20,6 @@ class TurmaController extends Controller
     {
         $Turma=new turma;
         $Turma->descricao= $request->descricao;
-        $Turma->curso_id = $request->curso_id;
-        $Turma->ano_lectivo_id= $request->ano_lectivo_id;
-        $Turma->ano_academico_id = $request->ano_academico_id;
-        $Turma->semestre_id = $request->semestre_id;
         return $Turma->save()>0?"Salvo com sucesso":"Erro ao salvar";
         //codTurma	curso_id	ano_lectivo_id	ano_academico_id	semestre_id	    
     }

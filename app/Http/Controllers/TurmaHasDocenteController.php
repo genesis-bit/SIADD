@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\turma_has_docente;
+use Exception;
 use Illuminate\Http\Request;
 
 class TurmaHasDocenteController extends Controller
@@ -35,7 +36,16 @@ class TurmaHasDocenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //turma_id	docente_id
+        try{
+            $turmaDocente = new turma_has_docente();
+            $turmaDocente->turma_id = $request->turma_id;
+            $turmaDocente->docente_id = $request->docente_id;
+            return $turmaDocente->save()>0?response()->json("Adicionado com sucesso", 201);
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
 
     /**

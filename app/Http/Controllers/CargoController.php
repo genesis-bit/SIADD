@@ -18,9 +18,15 @@ class CargoController extends Controller
    
     public function store(Request $request)
     {
-        $Cargo = new cargo;
-        $Cargo->descricao = $request->descricao;
-        return $Cargo->save()>0?"Salvo com sucesso":"Erro ao Salvar";
+        try{
+            $Cargo = new cargo;
+            $Cargo->descricao = $request->descricao;
+            $Cargo->timestamps = false;
+            return $Cargo->save()>0?response()->json(null, 201):"Erro ao Salvar";
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
         
     }
 

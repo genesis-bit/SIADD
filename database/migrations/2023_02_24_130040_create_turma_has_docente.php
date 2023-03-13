@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('turma_has_docente', function (Blueprint $table) {
             $table->unsignedBigInteger('turma_id');
             $table->unsignedBigInteger('docente_id');
-            $table->foreign('turma_id')->references('id')->on('turma');
+            $table->foreign('turma_id')->references('id')->on('turma_has_curso');
             $table->foreign('docente_id')->references('id')->on('docente');
             $table->primary(['turma_id', 'docente_id']);
         });

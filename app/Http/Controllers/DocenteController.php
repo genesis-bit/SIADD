@@ -62,7 +62,7 @@ class DocenteController extends Controller
                 $Docente->id =  $Id_user["id"];
                 $Docente->nome_docente = $request->nome_docente;
                 $Docente->numero_mecanografico = $request->numero_mecanografico;
-                $Docente->unidade_organica_id = $request->unidade_organica_id;
+                $Docente->unidade_organica_id = 1;
                 $Docente->cargo_id = $request->cargo_id;
                 $Docente->departamento_id = $request->departamento_id;
                 $Docente->grau_academico_id = $request->grau_academico_id;
@@ -99,7 +99,6 @@ class DocenteController extends Controller
             $Docente = docente::findOrFail($id);
             return $Docente->delete()>0? response()->json("Deletado com sucesso", 200):"";
         }catch(Exception $e){
-            return response()->json($e->getMessage(), 400);
             return response()->json($e->getMessage(), 400);
         }
     }

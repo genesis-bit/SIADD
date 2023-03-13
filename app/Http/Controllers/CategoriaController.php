@@ -18,10 +18,15 @@ class CategoriaController extends Controller
     
     public function store(Request $request)
     {
-        $Categoria= new categoria;
-        $Categoria->descricao= $request->descricao;
-        $Categoria->timestamps = false;
-        return $Categoria->save()>0?"Salvo com sucesso":"Erro ao Salvar";
+        try{
+            $Categoria= new categoria;
+            $Categoria->descricao= $request->descricao;
+            $Categoria->timestamps = false;
+            return $Categoria->save()>0?response()->json("Salvo com sucesso",201):"Erro ao Salvar";
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
 
     

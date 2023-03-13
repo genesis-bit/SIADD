@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AnoAcademicoController;
 use App\Http\Controllers\AnoLectivoController;
-use App\Http\Controllers\AvaliacaoController;
 use App\Http\Controllers\AvaliacaoHasDocenteController;
 use App\Http\Controllers\AvaliadorController;
 use App\Http\Controllers\AvaliadorHasAvaliacaoController;
@@ -32,9 +31,9 @@ use App\Http\Controllers\PercentagemContratacaoController;
 use App\Http\Controllers\PeriodoAvaliacaoController;
 use App\Http\Controllers\SemestreController;
 use App\Http\Controllers\TurmaController;
+use App\Http\Controllers\TurmaHasCursoController;
+use App\Http\Controllers\TurmaHasEstudanteController;
 use App\Http\Controllers\UnidadeOrganicaController;
-use App\Models\avaliador_has_avaliacao;
-use App\Models\turma_has_estudante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -66,7 +65,7 @@ Route::resources([
                    'curso'=>CursoController::class,
                    'anoAcademico'=>AnoAcademicoController::class,
                    'turma'=>TurmaController::class,
-                   'turmaEstudante'=>turma_has_estudante::class,
+                   'turmaEstudante'=>TurmaHasEstudanteController::class,
                    'percentagemContratacao'=>PercentagemContratacaoController::class,
                    'docente'=>DocenteController::class,
                    'disciplina'=>DisciplinaController::class,
@@ -87,6 +86,7 @@ Route::resources([
                    'estudanteAvaliacao'=>EstudanteAvaliaDocenteController::class,
                    'avaliador'=>AvaliadorController::class,
                    'cargo'=>CargoController::class,
-                   'indicadorEstudante'=>IndicadorEstudanteController::class
+                   'indicadorEstudante'=>IndicadorEstudanteController::class,
+                   'turmaCurso'=>TurmaHasCursoController::class
 
                 ]);
