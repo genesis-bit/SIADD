@@ -29,6 +29,7 @@ class AvaliacaoHasDocenteController extends Controller
         ->join('parametro','parametro.id','=', 'indicador.parametro_id')
         //->where('avaliacao_has_docente.docente_id','=',1)
         //->where('avaliacao_has_docente.periodo_avaliacao_id','=',2)
+        ->where('avaliacao_has_docente.estado_resposta_id','=',1)
         ->select('parametro.dimensao_id as dimensao','parametro.id as parametro','avaliacao_has_docente.docente_id',DB::raw('SUM(indicador.pontuacao + parametro.peso) as TotalParametro'))
         ->groupBy(['parametro.id','avaliacao_has_docente.docente_id','parametro.dimensao_id'])
         ->orderBy('avaliacao_has_docente.docente_id')
