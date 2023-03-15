@@ -16,7 +16,7 @@ class TurmaHasEstudanteController extends Controller
             $turmaEstudante = new turma_has_estudante();
             $turmaEstudante->turma_id = $request->turma_id;
             $turmaEstudante->estudante_id = $request->estudante_id;
-            return $turmaEstudante->save()>0?response()->json("Adicionado com sucesso", 201);
+            return $turmaEstudante->save()>0?response()->json("Adicionado com sucesso", 201):"";
         }
         catch(Exception $e){
             return response()->json($e->getMessage(),400);

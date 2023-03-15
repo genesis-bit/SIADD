@@ -41,7 +41,7 @@ class TurmaHasDocenteController extends Controller
             $turmaDocente = new turma_has_docente();
             $turmaDocente->turma_id = $request->turma_id;
             $turmaDocente->docente_id = $request->docente_id;
-            return $turmaDocente->save()>0?response()->json("Adicionado com sucesso", 201);
+            return $turmaDocente->save()>0?response()->json("Adicionado com sucesso", 201):"";
         }
         catch(Exception $e){
             return response()->json($e->getMessage(),400);
@@ -79,7 +79,16 @@ class TurmaHasDocenteController extends Controller
      */
     public function update(Request $request, turma_has_docente $turma_has_docente)
     {
-        //
+        try{
+            $turmaDocente = $turma_has_docente;
+            return $turmaDocente;
+            //$turmaDocente->turma_id = $request->turma_id;
+            //$turmaDocente->docente_id = $request->docente_id;
+            //return $turmaDocente->save()>0?response()->json("Adicionado com sucesso", 201);
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
 
     /**

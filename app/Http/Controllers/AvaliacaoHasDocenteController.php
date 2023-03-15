@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\avaliacao_has_docente;
 use App\Models\docente;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
+
         return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();
     }
    public function create(){
@@ -21,6 +23,19 @@ class AvaliacaoHasDocenteController extends Controller
         $indicador = indicador::all();
         return [$docente,$periodoAvaliacao,$indicador];
    } 
+
+   public function TotalPorParametro(){
+        $ResultadoParametro = avaliacao_has_docente::join('indicador','avaliacao_has_docente.indicador_id', '=', 'indicador.id')
+        ->join('parametro','parametro.id','=', 'indicador.parametro_id')
+        //->where('avaliacao_has_docente.docente_id','=',1)
+        //->where('avaliacao_has_docente.periodo_avaliacao_id','=',2)
+        ->select('parametro.dimensao_id as dimensao','parametro.id as parametro','avaliacao_has_docente.docente_id',DB::raw('SUM(indicador.pontuacao + parametro.peso) as TotalParametro'))
+        ->groupBy(['parametro.id','avaliacao_has_docente.docente_id','parametro.dimensao_id'])
+        ->orderBy('avaliacao_has_docente.docente_id')
+        ->get();
+        return $ResultadoParametro;
+   }
+   
    public function store(request $request){
         $avaliacao = new avaliacao_has_docente();
         $avaliacao->docente_id = $request->docente_id;
@@ -71,3 +86,8 @@ indicador_id
 documento_comprovante_id	
 resposta	
 estado_resposta_id	*/
+  /*  SELECT SUM(indicador.pontuacao), parametro.descricao, avaliacao_has_docente.docente_id
+from avaliacao_has_docente INNER JOIN indicador on avaliacao_has_docente.indicador_id = indicador.id
+INNER JOIN parametro on parametro.id= indicador.parametro_id
+where avaliacao_has_docente.docente_id= 1
+GROUP BY(parametro.descricao);-------Resultado por Parametro*/

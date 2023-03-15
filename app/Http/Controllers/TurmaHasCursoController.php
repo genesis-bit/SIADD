@@ -16,6 +16,7 @@ class TurmaHasCursoController extends Controller
     public function index()
     {
         //
+        return turma_has_curso::all();
     }
 
     /**
@@ -39,8 +40,8 @@ class TurmaHasCursoController extends Controller
         try{
             $ExisteTurma = turma_has_curso::where('turma_id','=',$request->turma_id)->where('curso_id','=',$request->curso_id)
             ->where('ano_lectivo_id','=',$request->ano_lectivo_id)->where('ano_academico_id','=',$request->ano_academico_id)
-            ->where('semestre_id','=',$request->semestre_id)->get("id");
-            if($ExisteTurma->Isempty()){
+            ->where('semestre_id','=',$request->semestre_id)->doesntExist();
+            if($ExisteTurma){
                 $Turma = new turma_has_curso;
                 $Turma->turma_id = $request->turma_id;
                 $Turma->curso_id = $request->curso_id;
