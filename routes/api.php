@@ -54,6 +54,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/resposta/{id}',[DocenteController::class,'RespostaPorPerguntas']);
 Route::get('/resultadoParametro',[AvaliacaoHasDocenteController::class,'TotalPorParametro']);
+Route::get('/avaliacaoDocente/Classificacao/{idProfessor}',[AvaliacaoHasDocenteController::class,'ResultadoFinal']);
+Route::get('/docente/classificacao',[AvaliacaoHasDocenteController::class,'ClassificacaoGeral']);
 Route::resources([
                    'grauAcademico'=>GrauAcademicoController::class,
                    'nivelAcesso'=>NivelAcessoController::class,

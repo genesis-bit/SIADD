@@ -15,7 +15,8 @@ use Illuminate\Http\Request;
 class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
-        return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
+
+        //return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
     }
 
     
@@ -64,9 +65,15 @@ class AvaliacaoHasDocenteController extends Controller
    }
    public function ResultadoFinal($idProfessor){
     $CF = ["Estado"=>"", "Valor"=>0];
+    $CF["Docente_id"] = docente::where("id","=",5)
+    ->with(["UnidadeOrganica","Percentagem","Categoria","GrauAcademico","Cargo"])
+    ->get()[0];
+
+            /*select("id","nome_docente","numero_mecanografico","cargo_id","unidade_organica_id",
+        "grau_academico_id","percentagem_contratacao_id","categoria_profissional_id","created_at")*/
     $pesosDimensao = dimensao::get("peso");
     $dimensao = $this->TotalPorDimensao($idProfessor);
-    
+
     $CF["Valor"] = $dimensao["dimensao1"]*$pesosDimensao[0]["peso"] + $dimensao["dimensao2"]*$pesosDimensao[1]["peso"] + 
     $dimensao["dimensao3"]*$pesosDimensao[2]["peso"] + $dimensao["dimensao4"]*$pesosDimensao[3]["peso"];
 
@@ -91,6 +98,15 @@ class AvaliacaoHasDocenteController extends Controller
     return $CF;
 
    }
+   public function ClassificacaoGeral(){
+        $Resultado = collect([]);
+        $IdDocente = avaliacao_has_docente::select("docente_id")->distinct()->get();
+        foreach($IdDocente as $id){
+            $Resultado->push($this->ResultadoFinal($id["docente_id"]));
+        }
+
+        return $Resultado;
+   } 
    
    public function store(request $request){
         $avaliacao = new avaliacao_has_docente();

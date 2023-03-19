@@ -72,7 +72,7 @@ class DocenteController extends Controller
             }
     }
     catch(Exception $e){
-        return response()->json($e->getMessage(), 400); 
+        return response()->json("Erro ao cadastrar o docente. Por favor, verifique se o Docente já foi cadastrado ou consulte o Administrador do sistema.", 400); 
     }
     }
     
