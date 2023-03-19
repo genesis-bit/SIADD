@@ -7,6 +7,7 @@ use App\Models\avaliacao_has_docente;
 use App\Models\docente;
 use App\Models\documento_comprovante;
 use App\Models\indicador;
+use App\Models\dimensao;
 use App\Models\periodo_avaliacao;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,9 +15,10 @@ use Illuminate\Http\Request;
 class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
-
-        return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();
+        return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
     }
+
+    
    public function create(){
         $docente = docente::all();
         $periodoAvaliacao = periodo_avaliacao::all();
@@ -24,10 +26,10 @@ class AvaliacaoHasDocenteController extends Controller
         return [$docente,$periodoAvaliacao,$indicador];
    } 
 
-   public function TotalPorParametro(){
+   public function TotalPorParametro($idProfessor){
         $ResultadoParametro = avaliacao_has_docente::join('indicador','avaliacao_has_docente.indicador_id', '=', 'indicador.id')
         ->join('parametro','parametro.id','=', 'indicador.parametro_id')
-        //->where('avaliacao_has_docente.docente_id','=',1)
+        ->where('avaliacao_has_docente.docente_id','=',$idProfessor)
         //->where('avaliacao_has_docente.periodo_avaliacao_id','=',2)
         ->where('avaliacao_has_docente.estado_resposta_id','=',1)
         ->select('parametro.dimensao_id as dimensao','parametro.id as parametro','avaliacao_has_docente.docente_id',DB::raw('SUM(indicador.pontuacao + parametro.peso) as TotalParametro'))
@@ -35,6 +37,59 @@ class AvaliacaoHasDocenteController extends Controller
         ->orderBy('avaliacao_has_docente.docente_id')
         ->get();
         return $ResultadoParametro;
+   }
+
+   public function TotalPorDimensao($idProfessor){
+            $dimensao = ["docente_id"=>0,"dimensao1"=>0,"dimensao2"=>0,"dimensao3"=>0,"dimensao4"=>0];                
+            $TotalParametros = $this->TotalPorParametro($idProfessor);
+            $dimensao["docente_id"] = $TotalParametros[0]["docente_id"];
+            foreach($TotalParametros as $dados){
+                switch($dados["dimensao"]){
+                    case (1):
+                        $dimensao["dimensao1"] += $dados["TotalParametro"];
+                        break;
+                    case (2):
+                        $dimensao["dimensao2"] += $dados["TotalParametro"];
+                        break;
+                    case (3):
+                        $dimensao["dimensao3"] += $dados["TotalParametro"];
+                        break;
+                    case (4):
+                        $dimensao["dimensao1"] += $dados["TotalParametro"];
+                        break;
+                    
+                }
+            }
+            return $dimensao;
+   }
+   public function ResultadoFinal($idProfessor){
+    $CF = ["Estado"=>"", "Valor"=>0];
+    $pesosDimensao = dimensao::get("peso");
+    $dimensao = $this->TotalPorDimensao($idProfessor);
+    
+    $CF["Valor"] = $dimensao["dimensao1"]*$pesosDimensao[0]["peso"] + $dimensao["dimensao2"]*$pesosDimensao[1]["peso"] + 
+    $dimensao["dimensao3"]*$pesosDimensao[2]["peso"] + $dimensao["dimensao4"]*$pesosDimensao[3]["peso"];
+
+        switch($CF["Valor"]){
+            case $CF["Valor"] < 30 :
+                $CF["Estado"] = "Inadequado";
+                break;
+            case $CF["Valor"] >= 30 && $CF["Valor"] < 50:
+                $CF["Estado"] = "Suficiente";
+                break;
+            case $CF["Valor"] >= 50 && $CF["Valor"] < 80:
+                $CF["Estado"] = "Bom";
+                break;
+            case $CF["Valor"] >= 80 && $CF["Valor"] < 100:
+                $CF["Estado"] = "Muito bom";
+                break;
+            default:
+                $CF["Estado"] = "Excelente";
+                break;
+        }
+
+    return $CF;
+
    }
    
    public function store(request $request){
