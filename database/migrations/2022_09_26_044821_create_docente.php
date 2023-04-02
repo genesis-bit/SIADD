@@ -24,13 +24,13 @@ return new class extends Migration
             $table->unsignedBigInteger('categoria_profissional_id');
             $table->unsignedBigInteger('percentagem_contratacao_id');
             $table->primary('id');
-            $table->foreign('id')->references('id')->on('users');
-            $table->foreign('unidade_organica_id')->references('id')->on('unidade_organica');
-            $table->foreign('departamento_id')->references('id')->on('departamento');
-            $table->foreign('categoria_profissional_id')->references('id')->on('categoria_profissional');
-            $table->foreign('grau_academico_id')->references('id')->on('grau_academico');
-            $table->foreign('percentagem_contratacao_id')->references('id')->on('percentagem_contratacao');
-            $table->foreign('cargo_id')->references('id')->on('cargo');
+            $table->foreign('id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('unidade_organica_id')->references('id')->on('unidade_organica')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('departamento_id')->references('id')->on('departamento')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('categoria_profissional_id')->references('id')->on('categoria_profissional')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('grau_academico_id')->references('id')->on('grau_academico')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('percentagem_contratacao_id')->references('id')->on('percentagem_contratacao')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('cargo_id')->references('id')->on('cargo')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

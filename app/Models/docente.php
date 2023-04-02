@@ -37,6 +37,10 @@ percentagem_contratacao_id*/
         return $this->hasOne(percentagem_contratacao::class,'id','percentagem_contratacao_id');
     }
 
+    public function Departamento(){
+        return $this->hasOne(departamento::class,'id','departamento_id');
+    }
+
     public function RespostaDocente(){
         return $this->hasMany(avaliacao_has_docente::class,'docente_id','id');
     }

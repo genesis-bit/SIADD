@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\avaliacao_has_docente;
+use App\Models\cad_has_docente;
 use App\Models\docente;
 use App\Models\documento_comprovante;
 use App\Models\indicador;
@@ -16,7 +17,7 @@ class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
 
-        //return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
+        return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
     }
 
     
@@ -64,34 +65,31 @@ class AvaliacaoHasDocenteController extends Controller
             return $dimensao;
    }
    public function ResultadoFinal($idProfessor){
-    $CF = ["Estado"=>"", "Valor"=>0];
-    $CF["Docente_id"] = docente::where("id","=",5)
-    ->with(["UnidadeOrganica","Percentagem","Categoria","GrauAcademico","Cargo"])
-    ->get()[0];
+    $CF = ["estado"=>"", "valor"=>0];
+    $CF["docente"] = docente::where("id","=",$idProfessor)
+    ->with(["UnidadeOrganica","Percentagem","Categoria","GrauAcademico","Cargo", "Departamento"])->first();
 
-            /*select("id","nome_docente","numero_mecanografico","cargo_id","unidade_organica_id",
-        "grau_academico_id","percentagem_contratacao_id","categoria_profissional_id","created_at")*/
     $pesosDimensao = dimensao::get("peso");
     $dimensao = $this->TotalPorDimensao($idProfessor);
 
-    $CF["Valor"] = $dimensao["dimensao1"]*$pesosDimensao[0]["peso"] + $dimensao["dimensao2"]*$pesosDimensao[1]["peso"] + 
+    $CF["valor"] = $dimensao["dimensao1"]*$pesosDimensao[0]["peso"] + $dimensao["dimensao2"]*$pesosDimensao[1]["peso"] + 
     $dimensao["dimensao3"]*$pesosDimensao[2]["peso"] + $dimensao["dimensao4"]*$pesosDimensao[3]["peso"];
 
-        switch($CF["Valor"]){
-            case $CF["Valor"] < 30 :
-                $CF["Estado"] = "Inadequado";
+        switch($CF["valor"]){
+            case $CF["valor"] < 30 :
+                $CF["estado"] = "Inadequado";
                 break;
-            case $CF["Valor"] >= 30 && $CF["Valor"] < 50:
-                $CF["Estado"] = "Suficiente";
+            case $CF["valor"] >= 30 && $CF["valor"] < 50:
+                $CF["estado"] = "Suficiente";
                 break;
-            case $CF["Valor"] >= 50 && $CF["Valor"] < 80:
-                $CF["Estado"] = "Bom";
+            case $CF["valor"] >= 50 && $CF["valor"] < 80:
+                $CF["estado"] = "Bom";
                 break;
-            case $CF["Valor"] >= 80 && $CF["Valor"] < 100:
-                $CF["Estado"] = "Muito bom";
+            case $CF["valor"] >= 80 && $CF["Valor"] < 100:
+                $CF["estado"] = "Muito bom";
                 break;
             default:
-                $CF["Estado"] = "Excelente";
+                $CF["estado"] = "Excelente";
                 break;
         }
 
@@ -109,14 +107,28 @@ class AvaliacaoHasDocenteController extends Controller
    } 
    
    public function store(request $request){
-        $avaliacao = new avaliacao_has_docente();
-        $avaliacao->docente_id = $request->docente_id;
-        $avaliacao->periodo_avaliacao_id = $request->periodo_avaliacao_id;
-        $avaliacao->indicador_id = $request->indicador_id;
-        $avaliacao->documento_comprovante_id = $request->documento_comprovante_id==0?NULL:$request->documento_comprovante_id;
-        $avaliacao->resposta = $request->resposta;
-        //estado_cad_id é por defeito 1(em analisé)
-        return $avaliacao->save()>0?"Adicionado com sucesso":"Erro ao Adicionar";
+        try{
+            // Validação do avaliado e do cad!
+            $DocentenoCad = cad_has_docente::where('docente_id','=',$request->docente_id)
+            //Tenho de verificar o cad ativo!
+                //->where('periodo_avaliacao_id','=',$request->periodo_avaliacao_id)
+                ->get();
+            if($DocentenoCad->isNotEmpty())
+                return response()->json("Docente pertencente ao Cad, não pode ser avaliado",400);
+            
+            //------------------------------------------------
+            $avaliacao = new avaliacao_has_docente();
+            $avaliacao->docente_id = $request->docente_id;
+            $avaliacao->periodo_avaliacao_id = $request->periodo_avaliacao_id;
+            $avaliacao->indicador_id = $request->indicador_id;
+            $avaliacao->documento_comprovante_id = $request->documento_comprovante_id==0?NULL:$request->documento_comprovante_id;
+            $avaliacao->resposta = $request->resposta;
+            //estado_cad_id é por defeito 1(em analisé)
+            return $avaliacao->save()>0?response()->json("Adicionado com sucesso",201):"";
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(), 400);
+        }
    }
    public function update(request $request,$id){
     try{
@@ -128,7 +140,7 @@ class AvaliacaoHasDocenteController extends Controller
         return $avaliacao->update()>0?"Atualizado com sucesso":"Erro ao Atualizar";
     }
     catch(Exception $e){
-        return $e->getMessage();
+        return response()->json($e->getMessage(), 400);
     }
 }
    public function show($id)
@@ -143,10 +155,10 @@ class AvaliacaoHasDocenteController extends Controller
    public function destroy($id){
     try{
         $avaliacao = avaliacao_has_docente::findOrFail($id);
-        return $avaliacao->delete()>0?"Apagado com sucesso":"Erro ao Apagar";
+        return $avaliacao->delete()>0?response()->json("Apagado com sucesso",200):"Erro ao Apagar";
     }
     catch(Exception $e){
-        return $e->getMessage();
+        return response()->json($e->getMessage(),400);
     }
    }
 }
