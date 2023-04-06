@@ -13,4 +13,7 @@ class parametro extends Model
     public function dimensao(){
         return $this->hasOne(dimensao::class,'id','dimensao_id');
     }
+    public function indicador(){
+        return $this->hasMany(indicador::class,'parametro_id','id');
+    }
 }

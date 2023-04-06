@@ -35,6 +35,7 @@ use App\Http\Controllers\TurmaHasCursoController;
 use App\Http\Controllers\TurmaHasEstudanteController;
 use App\Http\Controllers\TurmaHasDocenteController;
 use App\Http\Controllers\UnidadeOrganicaController;
+use App\Models\parametro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,7 @@ Route::get('/docente/classificacao/{idProfessor}',[AvaliacaoHasDocenteController
 Route::get('/docente/classificacao',[AvaliacaoHasDocenteController::class,'ClassificacaoGeral']);
 Route::get('/docente/docentescad/{idCad}',[CadHasDocenteController::class,'DocentesCad']);
 Route::get('/cad/ativarcad/{idcad}',[CadController::class,'ativarcad']);
+Route::get('/dimensaoparametro',[ParametroController::class,'dimensaoParametro']);
 Route::resources([
                    'grauAcademico'=>GrauAcademicoController::class,
                    'nivelAcesso'=>NivelAcessoController::class,

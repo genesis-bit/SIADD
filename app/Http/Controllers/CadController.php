@@ -11,7 +11,7 @@ use Exception;
 class CadController extends Controller
 {
     public function index(){
-        return cad::all();
+        return cad::with('DocenteCad')->get();
    
     }
 

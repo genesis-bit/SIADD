@@ -33,7 +33,8 @@ class CadHasdocenteController extends Controller
             $membroCad->cad_id = $request->cad_id;
             $membroCad->docente_id = $request->docente_id;
             $membroCad->estado_cad_id = $request->estado_cad_id;
-            return $membroCad->save()>0?"Salvo com sucesso":"Erro ao Salvar";
+            return $membroCad->save()>0?response()->json("Salvo com sucesso", 201):"";
+            
         }
         catch(Exception $e){
             return response()->json($e->getMessage(),400);
