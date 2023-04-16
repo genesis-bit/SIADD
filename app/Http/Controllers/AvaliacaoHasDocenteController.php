@@ -20,6 +20,10 @@ class AvaliacaoHasDocenteController extends Controller
         return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
     }
 
+    public function __construct() {
+       // $this->middleware('auth:api');
+    }
+
     
    public function create(){
         $docente = docente::all();

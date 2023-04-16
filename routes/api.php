@@ -35,7 +35,8 @@ use App\Http\Controllers\TurmaHasCursoController;
 use App\Http\Controllers\TurmaHasEstudanteController;
 use App\Http\Controllers\TurmaHasDocenteController;
 use App\Http\Controllers\UnidadeOrganicaController;
-use App\Models\parametro;
+use App\Http\Controllers\AuthController;
+use App\Models\turma_has_curso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,14 +51,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/resposta/{id}',[DocenteController::class,'RespostaPorPerguntas']);
 Route::get('/resultadoParametro',[AvaliacaoHasDocenteController::class,'TotalPorParametro']);
 Route::get('/docente/classificacao/{idProfessor}',[AvaliacaoHasDocenteController::class,'ResultadoFinal']);
 Route::get('/docente/classificacao',[AvaliacaoHasDocenteController::class,'ClassificacaoGeral']);
 Route::get('/docente/docentescad/{idCad}',[CadHasDocenteController::class,'DocentesCad']);
+Route::get('/disciplina/docente/{id}',[DocenteController::class,'disciplinaDocente']);
+Route::get('/turma/docente/{id}',[TurmaHasCursoController::class,'turmaDocente']);
 Route::get('/cad/ativarcad/{idcad}',[CadController::class,'ativarcad']);
 Route::get('/dimensaoparametro',[ParametroController::class,'dimensaoParametro']);
 Route::resources([

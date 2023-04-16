@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('avaliador', function (Blueprint $table) {
             $table->unsignedBigInteger('docente_id');
-            $table->unsignedBigInteger('avaliador1_id');
-            $table->unsignedBigInteger('avaliador2_id');
-            $table->primary(['docente_id','avaliador1_id','avaliador2_id']);
+            $table->unsignedBigInteger('avaliador_id');
+            $table->unsignedBigInteger('cad_id');
+            $table->primary(['docente_id','avaliador_id','cad_id']);
             $table->foreign('docente_id')->references('id')->on('docente');
-            $table->foreign('avaliador1_id')->references('docente_id')->on('cad_has_docente');
-            $table->foreign('avaliador2_id')->references('docente_id')->on('cad_has_docente');
+            $table->foreign('avaliador_id')->references('docente_id')->on('cad_has_docente');
+            $table->foreign('cad_id')->references('id')->on('cad');
             $table->timestamps();
         });
     }

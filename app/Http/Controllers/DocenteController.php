@@ -11,13 +11,15 @@ use App\Models\percentagem_contratacao;
 use App\Models\unidade_organica;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class DocenteController extends Controller
 {
     public function index(){
         try{
-            return docente::with('User')->get();
+            //return docente::with('User')->get();
+            return docente::with('Turma')->get();
         }
         catch(Exception $e){
             return response()->json($e->getMessage(), 400);
@@ -53,11 +55,11 @@ class DocenteController extends Controller
             $User = new User();
             $User->name = $request->nome_docente;
             $User->email = $request->email;
-            $User->nivel_acesso_id = $request->nivel_acesso_id;
-            $User->password = $request->password;
+            $User->nivel_acesso_id = $request->nivel_acesso_id;            
+            $User->password = Hash::make($request->password);
             if($User->save()){
                 //Salvar Docente
-                $Id_user = User::all()->last();          
+             /*   $Id_user = User::all()->last();          
                 $Docente = new docente;
                 $Docente->id =  $Id_user["id"];
                 $Docente->nome_docente = $request->nome_docente;
@@ -68,7 +70,7 @@ class DocenteController extends Controller
                 $Docente->grau_academico_id = $request->grau_academico_id;
                 $Docente->categoria_profissional_id = $request->categoria_profissional_id;
                 $Docente->percentagem_contratacao_id = $request->percentagem_contratacao_id;
-                return $Docente->save()>0?response()->json("Salvo com sucesso", 201):""; 
+                return $Docente->save()>0?response()->json("Salvo com sucesso", 201):""; */
             }
     }
     catch(Exception $e){
@@ -104,5 +106,14 @@ class DocenteController extends Controller
     }
     public function RespostaPorPerguntas($id){    
             return docente::where('id','=',$id)->with('RespostaDocente')->get();
+    }
+    public function disciplinaDocente($id){
+        try{
+            return docente::where('id','=',$id)->with('Disciplina')->get();
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(), 400);
+        }
+        
     }
 }

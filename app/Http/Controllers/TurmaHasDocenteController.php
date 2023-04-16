@@ -15,7 +15,12 @@ class TurmaHasDocenteController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            return turma_has_docente::with('turmas')->get();
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
 
     /**

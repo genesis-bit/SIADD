@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('avaliacao_id');
             $table->unsignedBigInteger('estado_resposta_id');  
             $table->primary(['avaliador_id','avaliacao_id']);
-            $table->foreign('avaliador_id')->references('docente_id')->on('cad_has_docente');
+            $table->foreign('avaliador_id')->references('avaliador_id')->on('avaliador');
             $table->foreign('avaliacao_id')->references('id')->on('avaliacao_has_docente');
             $table->foreign('estado_resposta_id')->references('id')->on('estado_resposta');
             $table->timestamps();

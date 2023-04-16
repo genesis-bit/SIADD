@@ -44,4 +44,13 @@ percentagem_contratacao_id*/
     public function RespostaDocente(){
         return $this->hasMany(avaliacao_has_docente::class,'docente_id','id');
     }
+    public function Disciplina(){
+        return $this->belongsToMany(disciplina::class, 'docente_has_disciplina', 'docente_id', 'dis_id');
+   }
+   public function Turma(){
+        return $this->belongsToMany(turma_has_curso::class, 'turma_has_docente', 'turma_id', 'docente_id');
+    }
+   
+
+
 }

@@ -14,6 +14,10 @@ class turma_has_docente extends Model
         return $this->hasOne(docente::class,'id','docente_id');
     }
     public function turma(){
-        return $this->hasOne(turma::class,'id','turma_id');
+        return $this->hasOne(turma_has_curso::class,'id','turma_id');
     }
+    public function turmas(){
+        return $this->hasMany(turma_has_curso::class,'id','turma_id');
+    }
+    
 }
