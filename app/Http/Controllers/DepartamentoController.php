@@ -21,7 +21,7 @@ class DepartamentoController extends Controller
             $Departamento = new departamento;
             $Departamento->descricao = $request->descricao;
             $Departamento->timestamps = false;
-            return $Departamento->save()>0?response()->json("Salvo com sucesso", 201):""; ; 
+            return $Departamento->save()>0?response()->json("Salvo com sucesso", 201):"";  
         }catch(Exception $e){
             return response()->json($e->getMessage(), 400); 
         }

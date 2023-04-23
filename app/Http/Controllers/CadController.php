@@ -11,8 +11,13 @@ use Exception;
 class CadController extends Controller
 {
     public function index(){
+      try{
         return cad::with('DocenteCad')->get();
-   
+      }
+      catch(Exception $e){
+        return response()->json($e->getMessage(),400);
+      }
+        
     }
 
     public function show($id){
@@ -90,4 +95,17 @@ class CadController extends Controller
         return response()->json("O cad é formado no minimo de 5 docentes e maximo de 9", 400);
 
     }
+//Este metodo retorna cad e a qtd de docentes nela constituido.
+    public function cad_qtd_docente(){
+        $Lista= collect([]);
+        foreach(cad::with('PeriodoAvaliacao')->get() as $cad){
+            $numDocente = cad_has_docente::where('cad_id','=',$cad->id)->get()->COUNT();
+            $linha = ["cad"=>$cad,"qtd"=>$numDocente];
+            $Lista->push($linha);
+        }
+        return $Lista;
+    }
+
+
+
 }

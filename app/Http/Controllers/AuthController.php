@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 //use Validator;
 
 class AuthController extends Controller
@@ -14,7 +16,32 @@ class AuthController extends Controller
      * @return void
      */
     public function __construct() {
-       $this->middleware('auth:api', ['except' => ['login', 'register']]);
+      // $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+    public function salvarf(Request $request){
+        try{
+          //  $a = $request->file('ficheiro')->store('/','public');
+        // Storage::put($request->file('ficheiro'),'/');
+        $file = $request->file('ficheiro')->storeAs('public','documento.pdf');
+        //$name = $file->getClientOriginalName();
+        //$extension = $file->getClientOriginalExtension();
+        return response()->json($file,200);
+    }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
+    }
+    public function mostar(){
+        try{
+          //  $a = $request->file('ficheiro')->store('/','public');
+        $p = Storage::url('public/capa.pdf');
+        return $p;
+        //$name = $file->getClientOriginalName();
+        //$extension = $file->getClientOriginalExtension();
+    }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
     /**
      * Get a JWT via given credentials.
@@ -33,7 +60,7 @@ class AuthController extends Controller
         if (! $token = auth()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return $this->createNewToken($token);
+        return response()->json($this->createNewToken($token),200);
     }
     /**
      * Register a User.

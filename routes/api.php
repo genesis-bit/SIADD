@@ -36,6 +36,7 @@ use App\Http\Controllers\TurmaHasEstudanteController;
 use App\Http\Controllers\TurmaHasDocenteController;
 use App\Http\Controllers\UnidadeOrganicaController;
 use App\Http\Controllers\AuthController;
+use App\Models\avaliador;
 use App\Models\turma_has_curso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,17 +55,26 @@ use Illuminate\Support\Facades\Route;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+Route::get('/teste1', [AuthController::class, 'mostar']);
+Route::post('/teste', [AuthController::class, 'salvarf']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
-Route::get('/resposta/{id}',[DocenteController::class,'RespostaPorPerguntas']);
+Route::get('/resposta/docente/{id}',[AvaliacaoHasDocenteController::class,'respostasDocente']);
 Route::get('/resultadoParametro',[AvaliacaoHasDocenteController::class,'TotalPorParametro']);
-Route::get('/docente/classificacao/{idProfessor}',[AvaliacaoHasDocenteController::class,'ResultadoFinal']);
-Route::get('/docente/classificacao',[AvaliacaoHasDocenteController::class,'ClassificacaoGeral']);
-Route::get('/docente/docentescad/{idCad}',[CadHasDocenteController::class,'DocentesCad']);
+Route::get('/docente/classificacao/{idProfessor}',[AvaliacaoHasDocenteController::class,'ResultadoDocente']);
+Route::get('/docente/classificacao/',[AvaliacaoHasDocenteController::class,'ClassificacaoGeral']);
+Route::get('/docente/cad/{idCad}',[CadHasDocenteController::class,'DocentesCad']);
+Route::get('/docente/qtdcontratacao',[DocenteController::class,'QtdContratacao']);
 Route::get('/disciplina/docente/{id}',[DocenteController::class,'disciplinaDocente']);
 Route::get('/turma/docente/{id}',[TurmaHasCursoController::class,'turmaDocente']);
 Route::get('/cad/ativarcad/{idcad}',[CadController::class,'ativarcad']);
-Route::get('/dimensaoparametro',[ParametroController::class,'dimensaoParametro']);
+Route::get('elegerdocente/cad',[cadHasDocenteController::class,'DocenteParaCad']);
+Route::get('/avaliador/docente/{idavaliador}',[AvaliadorController::class,'docentesAvalaiador']);
+Route::get('/dashboard/{idProfessor}',[AvaliacaoHasDocenteController::class,'historicoProfessor']);
+Route::get('/periodo/historico',[AvaliacaoHasDocenteController::class,'HistoricoPeriodo']);
+//Route::get('/dimensao/parametro',[ParametroController::class,'dimensaoParametro']);
+Route::get('/dimensao/parametro/{iddimensao}',[ParametroController::class,'dimensaoParametro']);
+Route::post('/avaliacao/validar',[AvaliacaoHasDocenteController::class, 'validaravaliacao']);
 Route::resources([
                    'grauAcademico'=>GrauAcademicoController::class,
                    'nivelAcesso'=>NivelAcessoController::class,

@@ -45,6 +45,11 @@
                     </svg>
                 </div>
 
+                <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+                    <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
+                   
+                    </div>
+
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="p-6">
@@ -96,6 +101,11 @@
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                     Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline">Forge</a>, <a href="https://vapor.laravel.com" class="underline">Vapor</a>, <a href="https://nova.laravel.com" class="underline">Nova</a>, and <a href="https://envoyer.io" class="underline">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline">Telescope</a>, and more.
                                 </div>
+                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                                <form method="POST" action="/api/teste" enctype="multipart/form-data">
+                                    <input type="file" name="ficheiro" class="form-control"/>
+                                    <input type="submit" value="enviar" class="btn btn-primary"/>
+                                </form></div>
                             </div>
                         </div>
                     </div>

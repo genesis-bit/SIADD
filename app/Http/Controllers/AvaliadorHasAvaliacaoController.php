@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\avaliacao_has_docente;
 use App\Models\avaliador_has_avaliacao;
+use Exception;
 use Illuminate\Http\Request;
 
 class AvaliadorHasAvaliacaoController extends Controller
 {
     public function store(request $request){
         //avaliador_id	avaliacao_id	estado_resposta_id
+       try{
         $validar = new avaliador_has_avaliacao();
         $validar->avaliador_id = $request->avaliador_id;
         $validar->avaliacao_id = $request->avaliacao_id;
@@ -18,7 +20,10 @@ class AvaliadorHasAvaliacaoController extends Controller
             avaliacao_has_docente::where('id','=',$request->avaliacao_id)->update(['estado_resposta_id'=>$request->estado_resposta_id]);
             return "Validação feita com sucesso";
         }
-        return "Erro ao validar";
+    }
+    catch(Exception $e){
+        return response()->json($e->getMessage(),400);
+    }
     }
     public function update(request $request, $id){
         //avaliador_id	avaliacao_id	estado_resposta_id
@@ -31,5 +36,13 @@ class AvaliadorHasAvaliacaoController extends Controller
             return "Validação feita com sucesso";
         }
         return "Erro ao validar";
+    }
+    public function index(){
+        try{
+            return avaliador_has_avaliacao::all();
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
 }

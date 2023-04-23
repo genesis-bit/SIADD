@@ -35,7 +35,7 @@ class EstudanteAvaliaDocenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //	id	estudante_id	docente_id	periodo_avaliacao_id	indicador_id	escala
     }
 
     /**
