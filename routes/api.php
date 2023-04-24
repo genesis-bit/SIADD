@@ -55,8 +55,6 @@ use Illuminate\Support\Facades\Route;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-Route::get('/teste1', [AuthController::class, 'mostar']);
-Route::post('/teste', [AuthController::class, 'salvarf']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/resposta/docente/{id}',[AvaliacaoHasDocenteController::class,'respostasDocente']);

@@ -20,8 +20,7 @@ class DocenteController extends Controller
     public function index(){
         try{
             //return docente::with('User')->get();
-            return docente::with('Turma')->get();
-          
+            return Hash::make('1234');          
         }
         catch(Exception $e){
             return response()->json($e->getMessage(), 400);
@@ -57,7 +56,7 @@ class DocenteController extends Controller
             $User = new User();
             $User->name = $request->nome_docente;
             $User->email = $request->email;
-            $User->nivel_acesso_id = $request->nivel_acesso_id;            
+            $User->nivel_acesso_id = 3;//$request->nivel_acesso_id;            
             $User->password = Hash::make($request->password);
             if($User->save()){
                 $Id_user = User::all()->last();          

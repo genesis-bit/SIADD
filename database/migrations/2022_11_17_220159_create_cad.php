@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('descricao',100)->unique();
             $table->unsignedBigInteger('periodo_avaliacao_id');
+            $table->integer('ativo')->default(1);
             $table->foreign('periodo_avaliacao_id')->references('id')->on('periodo_avaliacao');
             $table->timestamps();
         });

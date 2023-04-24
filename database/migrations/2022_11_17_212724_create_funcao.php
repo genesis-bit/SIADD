@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('avaliacao_has_docente', function (Blueprint $table) {
-            $table->text('documento_comprovante')->after('resposta')->nullable();
+        Schema::create('funcao', function (Blueprint $table) {
+            $table->id();
+            $table->String('descricao',100)->unique();
         });
     }
 
@@ -25,8 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('avaliacao_has_docente', function (Blueprint $table) {
-            $table->dropColumn('documento_comprovante');
-        });
+        Schema::dropIfExists('funcao');
     }
 };

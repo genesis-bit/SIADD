@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\dimensao;
 use App\Models\parametro;
 use Illuminate\Http\Request;
+use Exception;
 
 class ParametroController extends Controller
 {
@@ -24,6 +25,18 @@ class ParametroController extends Controller
     }
     public function index(){
         return parametro::with('dimensao')->get();
+    }
+    public function store(Request $request){
+        try{
+                $parametro = new parametro;
+                $parametro->descricao = $request->descricao;
+                $parametro->peso = $request->peso;
+                $parametro->dimensao_id = $request->dimensao_id;
+                return $parametro->save()>0? response()->json("Parametro salvo com sucesso", 201):""; 
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(), 400); 
+        }      
     }
     public function parametrosIndicadores($id){
           return parametro::where('dimensao_id','=',$id)

@@ -16,10 +16,12 @@ return new class extends Migration
         Schema::create('cad_has_docente', function (Blueprint $table) {
             $table->unsignedBigInteger('cad_id');
             $table->unsignedBigInteger('docente_id');
+            $table->unsignedBigInteger('funcao_id');
             $table->unsignedBigInteger('estado_cad_id');
             $table->foreign('cad_id')->references('id')->on('cad');
             $table->foreign('docente_id')->references('id')->on('docente');
             $table->foreign('estado_cad_id')->references('id')->on('estado_cad');
+            $table->foreign('funcao_id')->references('id')->on('funcao');
             $table->primary(['cad_id', 'docente_id']);
             $table->timestamps();
         });

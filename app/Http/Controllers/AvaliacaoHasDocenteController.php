@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Storage;
 class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
-        
-        return request()->server('HTTP_HOST')."".(Storage::url('Docente1/vFar0V6DgVefnJzTnF98cBGZONsmXFwGIqTz6giU.jpg'));
+        return Storage::path('Docente1/vFar0V6DgVefnJzTnF98cBGZONsmXFwGIqTz6giU.jpg');
         //return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
     }
 
@@ -160,23 +159,26 @@ class AvaliacaoHasDocenteController extends Controller
    public function store(request $request){
         try{
             // Validação do avaliado e do cad!
-            $DocentenoCad = cad_has_docente::where('docente_id','=',$request->docente_id)
-                    ->where('periodo_avaliacao_id','=',$this->cadAtivo())//Tenho de verificar o cad ativo!
-                        ->get();
-            if($DocentenoCad->isNotEmpty())
-                return response()->json("Docente pertencente ao Cad, não pode ser avaliado",400);
+           // $DocentenoCad = cad_has_docente::where('docente_id','=',$request->docente_id)
+            //Tenho de verificar o cad ativo!
+             //   ->where('periodo_avaliacao_id','=',$this->cadAtivo())
+               // ->get();
+           // if($DocentenoCad->isNotEmpty())
+             //   return response()->json("Docente pertencente ao Cad, não pode ser avaliado",400);
             
             //------------------------------------------------
             //$idPeriodoAtivo = cad::where('ativo','=',1)->select('periodo_avaliacao_id')->get();
             //$file = $request->file('documento_comprovante')->store('public');
             $nomeDocente = docente::find($request->docente_id);
             $avaliacao = new avaliacao_has_docente;
+           
             $avaliacao->docente_id = $request->docente_id;
             $avaliacao->periodo_avaliacao_id = $this->cadAtivo();
             $avaliacao->indicador_id = $request->indicador_id;
+           
             $avaliacao->documento_comprovante = $request->file('documento_comprovante')->store($nomeDocente->nome_docente);
             $avaliacao->resposta = $request->resposta;
-            //estado_cad_id é por defeito 1(em analisé)
+           //estado_cad_id é por defeito 1(em analisé)
             return $avaliacao->save()>0?response()->json("Adicionado com sucesso",201):"";
            // return response()->json(($file),200);
         }
