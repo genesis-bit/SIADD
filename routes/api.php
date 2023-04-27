@@ -36,6 +36,7 @@ use App\Http\Controllers\TurmaHasEstudanteController;
 use App\Http\Controllers\TurmaHasDocenteController;
 use App\Http\Controllers\UnidadeOrganicaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\funcaoController;
 use App\Models\avaliador;
 use App\Models\turma_has_curso;
 use Illuminate\Http\Request;
@@ -108,6 +109,6 @@ Route::resources([
                    'cargo'=>CargoController::class,
                    'indicadorEstudante'=>IndicadorEstudanteController::class,
                    'turmaCurso'=>TurmaHasCursoController::class,
-                   'turmaDocente'=>TurmaHasDocenteController::class
-
+                   'turmaDocente'=>TurmaHasDocenteController::class,
+                   'funcao'=>funcaoController::class
                 ]);

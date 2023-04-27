@@ -11,6 +11,7 @@ use App\Models\percentagem_contratacao;
 use App\Models\unidade_organica;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,8 @@ class DocenteController extends Controller
 {
     public function index(){
         try{
-            //return docente::with('User')->get();
-            return Hash::make('1234');          
+            return docente::with('User')->get();
+            //return Hash::make('1234');          
         }
         catch(Exception $e){
             return response()->json($e->getMessage(), 400);
@@ -53,6 +54,15 @@ class DocenteController extends Controller
     public function store(Request $request){
         //Salvar User!      
         try{
+           $validator = Validator::make($request->all(), [
+                'email' => 'required|email','password' => 'required|string|min:3',
+                'nome_docente'=>'required|min:5','cargo_id'=>'required','departamento_id'=>'required',
+                'grau_academico_id'=>'required','categoria_profissional_id'=>'required',
+                'percentagem_contratacao_id'=>'required','numero_mecanografico'=>'required|unique:docente'
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
             $User = new User();
             $User->name = $request->nome_docente;
             $User->email = $request->email;
@@ -97,8 +107,18 @@ class DocenteController extends Controller
         }
     }
     public function QtdContratacao(){
+        try {
+            
         $dados =docente::select(DB::raw('COUNT(id) as total'))->groupBy(['percentagem_contratacao_id'])->get();
-        return ["Integral"=>$dados[0]->total,"Parcial"=>$dados[1]->total];
+       if($dados->count()>1)
+             return response()->json(["Integral"=>$dados[0]->total,"Parcial"=>$dados[1]->total],200);
+        
+        return  response()->json(["Integral"=>$dados[0]->total,"Parcial"=>0],200);
+
+        } catch (Exception $e) {
+            
+            return response()->json($e->getMessage(), 400);
+        }
     }
 
 

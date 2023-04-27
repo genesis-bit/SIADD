@@ -106,11 +106,15 @@
                                     <input type="file" name="ficheiro" class="form-control"/>
                                     <input type="submit" value="enviar" class="btn btn-primary"/>
                                 </form></div>
-                            </div>
+                               </div>
                         </div>
                     </div>
                 </div>
-
+                <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
+                    <div class="text-center text-sm text-gray-500 sm:text-left">
+                <img width="500" height="600" src ="/storage/Docente1/1toC5bGaSB84l3FG26qnswDs84JtoqnpFdkoREsq.jpg"/>
+                    </div>
+                </div>         
                 <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
                     <div class="text-center text-sm text-gray-500 sm:text-left">
                         <div class="flex items-center">

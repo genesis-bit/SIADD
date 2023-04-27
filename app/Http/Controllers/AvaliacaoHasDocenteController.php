@@ -19,7 +19,11 @@ use Illuminate\Support\Facades\Storage;
 class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
-        return Storage::path('Docente1/vFar0V6DgVefnJzTnF98cBGZONsmXFwGIqTz6giU.jpg');
+        return $this->ResultadoFinal(2,1);
+        //Storage::setVisibility('Romilde Ramos/0TJcUEcZqqMNWC9L0HxZwDtlXXxI7zGsU6geWaoU.png', 'private');
+        //return Storage::path('documento.pdf');
+        //return request()->server('HTTP_HOST').
+        //"".Storage::url('Romilde Ramos/0TJcUEcZqqMNWC9L0HxZwDtlXXxI7zGsU6geWaoU.png');
         //return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
     }
 
@@ -46,13 +50,13 @@ class AvaliacaoHasDocenteController extends Controller
             ->select(DB::raw('MAX(periodo_avaliacao_id) as Periodo'))->first();
     $periodo_id = $periodoavaliacao==0?$buscarperiodo->Periodo:$periodoavaliacao;
     
-        
+       
         $ResultadoParametro = avaliacao_has_docente::join('indicador','avaliacao_has_docente.indicador_id', '=', 'indicador.id')
         ->join('parametro','parametro.id','=', 'indicador.parametro_id')
         ->where('avaliacao_has_docente.docente_id','=',$idProfessor)
         ->where('avaliacao_has_docente.periodo_avaliacao_id','=',$periodo_id)
-        ->where('avaliacao_has_docente.estado_resposta_id','=',1)
-        ->select('parametro.dimensao_id as dimensao','parametro.id as parametro','avaliacao_has_docente.docente_id',DB::raw('SUM(indicador.pontuacao + parametro.peso) as TotalParametro'))
+        ->where('avaliacao_has_docente.estado_resposta_id','=',2)
+        ->select('parametro.dimensao_id as dimensao','parametro.id as parametro','avaliacao_has_docente.docente_id',DB::raw('SUM(indicador.pontuacao * parametro.peso) as TotalParametro'))
         ->groupBy(['parametro.id','avaliacao_has_docente.docente_id','parametro.dimensao_id'])
         ->orderBy('avaliacao_has_docente.docente_id')
         ->get();
@@ -75,7 +79,7 @@ class AvaliacaoHasDocenteController extends Controller
                         $dimensao["dimensao3"] += $dados["TotalParametro"];
                         break;
                     case (4):
-                        $dimensao["dimensao1"] += $dados["TotalParametro"];
+                        $dimensao["dimensao4"] += $dados["TotalParametro"];
                         break;
                     
                 }
@@ -93,35 +97,41 @@ class AvaliacaoHasDocenteController extends Controller
     }
    }
    public function ResultadoFinal($idProfessor,$periodoavaliacao){
-    $CF = ["estado"=>"", "valor"=>0];
-    $CF["docente"] = docente::where("id","=",$idProfessor)
-    ->with(["UnidadeOrganica","Percentagem","Categoria","GrauAcademico","Cargo", "Departamento"])->first();
+    try{
+            $CF = ["estado"=>"", "valor"=>0];
+            $CF["docente"] = docente::where("id","=",$idProfessor)
+            ->with(["UnidadeOrganica","Percentagem","Categoria","GrauAcademico","Cargo", "Departamento"])->first();
 
-    $pesosDimensao = dimensao::get("peso");
-    $dimensao = $this->TotalPorDimensao($idProfessor,$periodoavaliacao);
+            $pesosDimensao = dimensao::get("peso");
+            $dimensao = $this->TotalPorDimensao($idProfessor,$periodoavaliacao);
 
-    $CF["valor"] = $dimensao["dimensao1"]*$pesosDimensao[0]["peso"] + $dimensao["dimensao2"]*$pesosDimensao[1]["peso"] + 
-    $dimensao["dimensao3"]*$pesosDimensao[2]["peso"] + $dimensao["dimensao4"]*$pesosDimensao[3]["peso"];
+            $CF["valor"] = $dimensao["dimensao1"]*$pesosDimensao[0]["peso"] + $dimensao["dimensao2"]*$pesosDimensao[1]["peso"] + 
+            $dimensao["dimensao3"]*$pesosDimensao[2]["peso"] + $dimensao["dimensao4"]*$pesosDimensao[3]["peso"];
 
-        switch($CF["valor"]){
-            case $CF["valor"] < 30 :
-                $CF["estado"] = "Inadequado";
-                break;
-            case $CF["valor"] >= 30 && $CF["valor"] < 50:
-                $CF["estado"] = "Suficiente";
-                break;
-            case $CF["valor"] >= 50 && $CF["valor"] < 80:
-                $CF["estado"] = "Bom";
-                break;
-            case $CF["valor"] >= 80 && $CF["Valor"] < 100:
-                $CF["estado"] = "Muito bom";
-                break;
-            default:
-                $CF["estado"] = "Excelente";
-                break;
-        }
+                switch($CF["valor"]){
+                    case $CF["valor"] < 30 :
+                        $CF["estado"] = "Inadequado";
+                        break;
+                    case $CF["valor"] >= 30 && $CF["valor"] < 50:
+                        $CF["estado"] = "Suficiente";
+                        break;
+                    case $CF["valor"] >= 50 && $CF["valor"] < 80:
+                        $CF["estado"] = "Bom";
+                        break;
+                    case $CF["valor"] >= 80 && $CF["Valor"] < 100:
+                        $CF["estado"] = "Muito bom";
+                        break;
+                    default:
+                        $CF["estado"] = "Excelente";
+                        break;
+                }
 
-    return $CF;
+            return $CF;
+    }
+    catch(Exception $e){
+        return $CF;
+        //return response()->json($e->getMessage(),400);
+    }
 
    }
    public function ClassificacaoGeral(){
@@ -249,8 +259,10 @@ indicador_id
 documento_comprovante_id	
 resposta	
 estado_resposta_id	*/
-  /*  SELECT SUM(indicador.pontuacao), parametro.descricao, avaliacao_has_docente.docente_id
-from avaliacao_has_docente INNER JOIN indicador on avaliacao_has_docente.indicador_id = indicador.id
-INNER JOIN parametro on parametro.id= indicador.parametro_id
-where avaliacao_has_docente.docente_id= 1
-GROUP BY(parametro.descricao);-------Resultado por Parametro*/
+  /*          SELECT SUM(indicador.pontuacao * parametro.peso) as total, parametro.descricao, avaliacao_has_docente.docente_id
+			from avaliacao_has_docente INNER JOIN indicador on avaliacao_has_docente.indicador_id = indicador.id
+				INNER JOIN parametro on parametro.id = indicador.parametro_id
+			where avaliacao_has_docente.docente_id = 2 and
+             avaliacao_has_docente.periodo_avaliacao_id = 1 and 
+             avaliacao_has_docente.estado_resposta_id = 1             
+GROUP BY(parametro.descricao);*/

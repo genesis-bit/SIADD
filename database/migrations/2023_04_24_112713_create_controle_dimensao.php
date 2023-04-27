@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('controle_dimensao', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('docente_id');
             $table->unsignedBigInteger('dimensao_id');
-            $table->unsignedBigInteger('periodo_avaliacao_id');
+            $table->unsignedBigInteger('periodo_id');
+            $table->primary(['docente_id','dimensao_id', 'periodo_id']);
             $table->foreign('docente_id')->references('id')->on('docente');
             $table->foreign('dimensao_id')->references('id')->on('dimensao');
-            $table->foreign('periodo_avaliacao_id')->references('id')->on('periodo_avaliacao');
+            $table->foreign('periodo_id')->references('id')->on('periodo_avaliacao');
             $table->timestamps();
         });
     }
