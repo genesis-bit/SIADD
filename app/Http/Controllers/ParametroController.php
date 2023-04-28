@@ -38,6 +38,18 @@ class ParametroController extends Controller
             return response()->json($e->getMessage(), 400); 
         }      
     }
+    public function update(Request $request, $id){
+        try{
+            $parametro = parametro::findOrFail($id);
+            $parametro->descricao = $request->descricao;
+            $parametro->peso = $request->peso;
+            $parametro->dimensao_id = $request->dimensao_id;
+            return $parametro->update()>0? response()->json("atualizado com sucesso", 200):""; 
+        }catch(Exception $e){
+            return response()->json($e->getMessage(), 400); 
+        }
+         
+    }
     public function parametrosIndicadores($id){
           return parametro::where('dimensao_id','=',$id)
         ->with('indicador')->get();

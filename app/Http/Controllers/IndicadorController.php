@@ -26,5 +26,17 @@ class IndicadorController extends Controller
             return response()->json($e->getMessage(), 400); 
         }      
     }
+    public function update(Request $request, $id){
+        try{
+            $indicador = indicador::findOrFail($id);
+            $indicador->descricao = $request->descricao;
+            $indicador->pontuacao = $request->pontuacao;
+            $indicador->parametro_id = $request->parametro_id;
+            return $indicador->update()>0? response()->json("atualizado com sucesso", 200):""; 
+        }catch(Exception $e){
+            return response()->json($e->getMessage(), 400); 
+        }
+         
+    }
 }
     

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class avaliacao_has_docente extends Model
 {
@@ -17,5 +18,8 @@ class avaliacao_has_docente extends Model
     }
     public function indicador(){
         return $this->hasOne(indicador::class,'id','indicador_id');
+    }
+    public function comprovante(){
+        return Storage::path($this->documento_comprovante);
     }
 }

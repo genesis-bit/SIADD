@@ -9,7 +9,7 @@ use Exception;
 class ControleDimensaoController extends Controller
 {public function index(){
     try{
-        return controle_dimensao::all();
+        return controle_dimensao::with(['Docente','Dimensao','Periodo'])->get();
     }
     catch(Exception $e){
         return response()->json($e->getMessage(), 400); 

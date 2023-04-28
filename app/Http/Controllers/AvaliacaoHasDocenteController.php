@@ -19,12 +19,12 @@ use Illuminate\Support\Facades\Storage;
 class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
-        return $this->ResultadoFinal(2,1);
+       // return $this->ResultadoFinal(2,1);
         //Storage::setVisibility('Romilde Ramos/0TJcUEcZqqMNWC9L0HxZwDtlXXxI7zGsU6geWaoU.png', 'private');
         //return Storage::path('documento.pdf');
         //return request()->server('HTTP_HOST').
         //"".Storage::url('Romilde Ramos/0TJcUEcZqqMNWC9L0HxZwDtlXXxI7zGsU6geWaoU.png');
-        //return avaliacao_has_docente::with(['docente','indicador','estadoResposta'])->get();    
+        return avaliacao_has_docente::with(['comprovante','estadoResposta'])->get();    
     }
 
     public function __construct() {
@@ -35,6 +35,7 @@ class AvaliacaoHasDocenteController extends Controller
             $avaliacao = avaliacao_has_docente::findOrFail($request->id);
             $avaliacao->estado_resposta_id = $request->estado_resposta_id;
             $avaliacao->avaliador_id = $request->avaliador_id;
+            $avaliacao->obs_validacao = $request->obs_validacao;
             return $avaliacao->update()>0?response()->json("Validado com sucesso", 200):"";
         }
         catch(Exception $e){
