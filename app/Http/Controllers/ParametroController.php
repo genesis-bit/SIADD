@@ -13,9 +13,8 @@ class ParametroController extends Controller
     public function dimensaoParametro($iddimensao)
     {
         $dim = dimensao::where('id','=',$iddimensao)->get();
-       // $var = collect([]);
-      
-         $v =["dimensao"=>$dim[0],"parametros"=>$this->parametrosIndicadores($iddimensao)];
+       // $var = collect([]);      
+        $v =["dimensao"=>$dim[0],"parametros"=>$this->parametrosIndicadores($iddimensao)];
          /*
         foreach($dim as $d){
             $v =["dimensao"=>$d,"parametros"=>$this->parametrosIndicadores($d->id)];

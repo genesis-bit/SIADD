@@ -11,6 +11,7 @@ use App\Models\documento_comprovante;
 use App\Models\indicador;
 use App\Models\dimensao;
 use App\Models\periodo_avaliacao;
+use Illuminate\Support\Str;
 use Exception;
 use Faker\Core\Number;
 use Illuminate\Http\Request;
@@ -19,8 +20,6 @@ use Illuminate\Support\Facades\Storage;
 class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
-       // return $this->ResultadoFinal(2,1);
-        //Storage::setVisibility('Romilde Ramos/0TJcUEcZqqMNWC9L0HxZwDtlXXxI7zGsU6geWaoU.png', 'private');
         //return Storage::path('documento.pdf');
         //return request()->server('HTTP_HOST').
         //"".Storage::url('Romilde Ramos/0TJcUEcZqqMNWC9L0HxZwDtlXXxI7zGsU6geWaoU.png');
@@ -32,7 +31,7 @@ class AvaliacaoHasDocenteController extends Controller
     }
     public function validaravaliacao(request $request){
         try{
-            $avaliacao = avaliacao_has_docente::findOrFail($request->id);
+            $avaliacao = avaliacao_has_docente::findOrFail($request->avaliacao_id);
             $avaliacao->estado_resposta_id = $request->estado_resposta_id;
             $avaliacao->avaliador_id = $request->avaliador_id;
             $avaliacao->obs_validacao = $request->obs_validacao;
@@ -146,7 +145,8 @@ class AvaliacaoHasDocenteController extends Controller
    } 
    
    public function HistoricoPeriodo(){
-        $periodoA = periodo_avaliacao::get();
+    try{
+        $periodoA = avaliacao_has_docente::select('periodo_avaliacao_id as id')->distinct()->get();
         $total = collect([]);   
         foreach($periodoA as $p){
             $aptos=0;
@@ -165,7 +165,11 @@ class AvaliacaoHasDocenteController extends Controller
                 }
             $total->push(["periodo"=>$p,"Aprovados"=>$aptos,"Reprovados"=>$naptos]);
         }
-        return $total;
+        return response()->json($total,200);
+    }
+    catch(Exception $e){
+        return response()->json($e->getMessage(),400);
+    }
    }
    public function store(request $request){
         try{
@@ -178,8 +182,6 @@ class AvaliacaoHasDocenteController extends Controller
              //   return response()->json("Docente pertencente ao Cad, não pode ser avaliado",400);
             
             //------------------------------------------------
-            //$idPeriodoAtivo = cad::where('ativo','=',1)->select('periodo_avaliacao_id')->get();
-            //$file = $request->file('documento_comprovante')->store('public');
             $nomeDocente = docente::find($request->docente_id);
             $avaliacao = new avaliacao_has_docente;
            
@@ -187,7 +189,8 @@ class AvaliacaoHasDocenteController extends Controller
             $avaliacao->periodo_avaliacao_id = $this->cadAtivo();
             $avaliacao->indicador_id = $request->indicador_id;
            
-            $avaliacao->documento_comprovante = $request->file('documento_comprovante')->store($nomeDocente->nome_docente);
+            $avaliacao->documento_comprovante = $request->file('documento_comprovante')
+                                                     ->store(Str::slug($nomeDocente->nome_docente));
             $avaliacao->resposta = $request->resposta;
            //estado_cad_id é por defeito 1(em analisé)
             return $avaliacao->save()>0?response()->json("Adicionado com sucesso",201):"";
@@ -249,21 +252,6 @@ class AvaliacaoHasDocenteController extends Controller
    public function cadAtivo(){
         $cadAtivo = cad::where('ativo','=',1)->select('periodo_avaliacao_id as periodo')->first();
         return $cadAtivo->periodo;
-}
+    }
    
 }
-/*
-request()->server('HTTP_HOST');
-docente_id	
-periodo_avaliacao_id	
-indicador_id	
-documento_comprovante_id	
-resposta	
-estado_resposta_id	*/
-  /*          SELECT SUM(indicador.pontuacao * parametro.peso) as total, parametro.descricao, avaliacao_has_docente.docente_id
-			from avaliacao_has_docente INNER JOIN indicador on avaliacao_has_docente.indicador_id = indicador.id
-				INNER JOIN parametro on parametro.id = indicador.parametro_id
-			where avaliacao_has_docente.docente_id = 2 and
-             avaliacao_has_docente.periodo_avaliacao_id = 1 and 
-             avaliacao_has_docente.estado_resposta_id = 1             
-GROUP BY(parametro.descricao);*/

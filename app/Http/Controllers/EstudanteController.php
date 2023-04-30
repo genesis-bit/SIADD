@@ -6,6 +6,7 @@ use App\Models\estudante;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Exception;
 
 class EstudanteController extends Controller
@@ -20,6 +21,13 @@ class EstudanteController extends Controller
    
     public function store(Request $request){    
         try{
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email','password' => 'required|string|min:3',
+                'nome'=>'required|min:5','numero_processo'=>'required|unique:estudante','numero_bilhete'=>'required|unique:estudante'
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
             $User = new User();
             $User->name = $request->nome;
             $User->email = $request->email;

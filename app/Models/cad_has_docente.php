@@ -18,4 +18,7 @@ class cad_has_docente extends Model
     public function EstadoCad(){
         return $this->hasOne(estado_cad::class,'id','estado_cad_id');
     }
+    public function funcao(){
+        return $this->hasOne(funcao::class,'id','funcao_id');
+    }
 }

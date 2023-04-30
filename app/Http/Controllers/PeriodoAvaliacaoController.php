@@ -11,7 +11,6 @@ class PeriodoAvaliacaoController extends Controller
 
     public function index(){
         return periodo_avaliacao::all();
-
     }
 
     public function show($id){
@@ -26,12 +25,15 @@ class PeriodoAvaliacaoController extends Controller
 
 
     public function store(Request $request){
-        $periodo = new periodo_avaliacao;
-        $periodo->descricao = $request->descricao;
-        $periodo->timestamps = false;
-        if($periodo->save())
-            return "Salvo com suceso";
-        return "Erro";
+       try{
+            $periodo = new periodo_avaliacao;
+            $periodo->descricao = $request->descricao;
+            $periodo->timestamps = false;
+            return $periodo->save()>0?response()->json("Salvo com sucesso",201):"Erro Ao Cadastrar";
+       }
+       catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+       }
     }
 
     public function update(Request $request, $id){

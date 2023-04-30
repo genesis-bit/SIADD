@@ -12,7 +12,7 @@ class IndicadorController extends Controller
     
     public function index()
     {
-        return indicador::all();
+        return indicador::with('parametro')->get();
     }
     public function store(Request $request){
         try{

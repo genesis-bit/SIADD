@@ -68,12 +68,12 @@ Route::get('/disciplina/docente/{id}',[DocenteController::class,'disciplinaDocen
 Route::get('/turma/docente/{id}',[TurmaHasCursoController::class,'turmaDocente']);
 Route::get('/cad/ativarcad/{idcad}',[CadController::class,'ativarcad']);
 Route::get('elegerdocente/cad',[cadHasDocenteController::class,'DocenteParaCad']);
-Route::get('/avaliador/docente/{idavaliador}',[AvaliadorController::class,'docentesAvalaiador']);
+Route::get('/avaliador/docente/{idavaliador}',[AvaliadorController::class,'docentesAvaliador']);
 Route::get('/dashboard/{idProfessor}',[AvaliacaoHasDocenteController::class,'historicoProfessor']);
 Route::get('/periodo/historico',[AvaliacaoHasDocenteController::class,'HistoricoPeriodo']);
 //Route::get('/dimensao/parametro',[ParametroController::class,'dimensaoParametro']);
 Route::get('/dimensao/parametro/{iddimensao}',[ParametroController::class,'dimensaoParametro']);
-Route::post('/avaliacao/validar',[AvaliacaoHasDocenteController::class, 'validaravaliacao']);
+Route::put('/avaliacao/validar',[AvaliacaoHasDocenteController::class, 'validaravaliacao']);
 Route::resources([
                    'grauAcademico'=>GrauAcademicoController::class,
                    'nivelAcesso'=>NivelAcessoController::class,

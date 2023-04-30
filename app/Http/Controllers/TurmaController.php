@@ -11,31 +11,29 @@ class TurmaController extends Controller
    
     public function index()
     {
-        return turma::all();
+        try{
+            return turma::all();
+        }catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
 
     
    
     public function store(Request $request)
     {
-        $Turma=new turma;
-        $Turma->descricao= $request->descricao;
-        return $Turma->save()>0?"Salvo com sucesso":"Erro ao salvar";
+        try{
+             $Turma=new turma;
+             $Turma->descricao= $request->descricao;
+             $Turma->timestamps = false;
+             return $Turma->save()>0?response()->json("Salvo com sucesso",201):"Erro ao salvar";
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
         //codTurma	curso_id	ano_lectivo_id	ano_academico_id	semestre_id	    
     }
 
-    
-    public function show(turma $id)
-    {
-        try{
-            return turma::findOrFail($id);
-        }catch(Exception $e){
-            return $e->getMessage();
-        }
-       
-    }
-
-   
     public function update(Request $request, $id)
     {
         try{

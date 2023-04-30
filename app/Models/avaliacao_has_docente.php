@@ -19,6 +19,7 @@ class avaliacao_has_docente extends Model
     public function indicador(){
         return $this->hasOne(indicador::class,'id','indicador_id');
     }
+
     public function comprovante(){
         return Storage::path($this->documento_comprovante);
     }

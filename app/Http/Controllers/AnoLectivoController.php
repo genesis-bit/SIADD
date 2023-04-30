@@ -10,9 +10,13 @@ class AnoLectivoController extends Controller
 {
     
     public function index()
-    {
-        return ano_lectivo::all();
-        
+    { 
+        try{
+            return ano_lectivo::all();
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }        
     }
 
     
@@ -20,10 +24,15 @@ class AnoLectivoController extends Controller
     
     public function store(Request $request)
     {
+        try{
         $anoLectivo = new ano_lectivo;
         $anoLectivo->descricao = $request->descricao;
         $anoLectivo->timestamps = false;
-        return $anoLectivo->save()>0?"Salvo com sucesso":"Erro ao Salvar";
+        return $anoLectivo->save()>0?response()->json("Salvo com sucesso",201):"Erro ao Salvar";
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
 
     

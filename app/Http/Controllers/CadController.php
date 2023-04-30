@@ -33,6 +33,7 @@ class CadController extends Controller
         try{
             $Cad = new cad;
             $Cad->descricao = $request->descricao;
+            $Cad->timestamps= false;
             $Cad->periodo_avaliacao_id = $request->periodo_avaliacao_id;
             if($Cad->save()>0){
                 cad::where('id', '<>', $Cad->id)->update(['ativo'=>0]);

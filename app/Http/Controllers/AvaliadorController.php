@@ -19,7 +19,7 @@ class AvaliadorController extends Controller
          return response()->json($e->getMessage(),400);
       }      
    }
-   public function docentesAvaliaador($avaliador_id){  //retorna todos os docentes que podem ser avaliados por um avaliador
+   public function docentesAvaliador($avaliador_id){  //retorna todos os docentes que podem ser avaliados por um avaliador
       try{
          return avaliador::where('avaliador_id','=',$avaliador_id)->with('Docente')->select('docente_id')->get();
       }
@@ -32,6 +32,8 @@ class AvaliadorController extends Controller
          $avaliador = new avaliador();
          $avaliador->docente_id = $request->docente_id;
          $avaliador->avaliador_id = $request->avaliador_id;
+         $cad = cad::where('ativo','=',1)->first();
+         $avaliador->cad_id = $cad->id;
          return $avaliador->save()>0?response()->json("Salvo com sucesso",201):"Erro ao salvar";
       }
       catch(Exception $e){

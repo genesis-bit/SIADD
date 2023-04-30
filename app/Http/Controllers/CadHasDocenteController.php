@@ -15,7 +15,7 @@ class CadHasdocenteController extends Controller
    
     public function index()
     {
-        return cad_has_docente::with(['Docente','Cad','estadoCad'])->get();
+        return cad_has_docente::with(['Docente','Cad','estadoCad','funcao'])->get();
     }
 
     public function create()
@@ -35,6 +35,7 @@ class CadHasdocenteController extends Controller
             $membroCad->cad_id = $cadAtivo->id;
             $membroCad->docente_id = $request->docente_id;
             $membroCad->estado_cad_id = $request->estado_cad_id;
+            $membroCad->funcao_id = $request->funcao_cad_id;
 
             //Mudar o previlegio do docente para docenteCad
             $user = User::find($request->docente_id);

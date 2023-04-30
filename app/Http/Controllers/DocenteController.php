@@ -125,7 +125,13 @@ class DocenteController extends Controller
     public function destroy ($id){
         try{
             $Docente = docente::findOrFail($id);
-            return $Docente->delete()>0? response()->json("Deletado com sucesso", 200):"";
+            $user = User::findOrFail($id);
+            if($Docente->delete()>0 && $user->delete()>0){ 
+                return response()->json("Deletado com sucesso", 200);
+            }
+            else{
+                return response()->json("Erro ao deletar", 400);
+            }
         }catch(Exception $e){
             return response()->json($e->getMessage(), 400);
         }
