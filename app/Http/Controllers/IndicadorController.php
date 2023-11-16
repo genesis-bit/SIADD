@@ -12,7 +12,12 @@ class IndicadorController extends Controller
     
     public function index()
     {
-        return indicador::with('parametro')->get();
+        try{
+            return indicador::with('parametro')->get();
+        }
+        catch(Exception $e){
+            return response()->json($e->getMessage(),400);
+        }
     }
     public function store(Request $request){
         try{

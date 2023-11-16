@@ -20,10 +20,7 @@ use Illuminate\Support\Facades\Storage;
 class AvaliacaoHasDocenteController extends Controller
 {
     public function index(){
-        //return Storage::path('documento.pdf');
-        //return request()->server('HTTP_HOST').
-        //"".Storage::url('Romilde Ramos/0TJcUEcZqqMNWC9L0HxZwDtlXXxI7zGsU6geWaoU.png');
-        return avaliacao_has_docente::with(['comprovante','estadoResposta'])->get();    
+        return avaliacao_has_docente::with(['estadoResposta'])->get();    
     }
 
     public function __construct() {
@@ -252,6 +249,16 @@ class AvaliacaoHasDocenteController extends Controller
    public function cadAtivo(){
         $cadAtivo = cad::where('ativo','=',1)->select('periodo_avaliacao_id as periodo')->first();
         return $cadAtivo->periodo;
+    }
+
+    public function downloadDocumento($pasta, $documento){
+        try{
+            return Storage::download($pasta.'/'.$documento);
+        }
+        catch(Exception $e){
+            return response->json('Ficheiro Inexistente',400);
+        }
+        
     }
    
 }

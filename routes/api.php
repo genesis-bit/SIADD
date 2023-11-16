@@ -73,6 +73,7 @@ Route::get('/dashboard/{idProfessor}',[AvaliacaoHasDocenteController::class,'his
 Route::get('/periodo/historico',[AvaliacaoHasDocenteController::class,'HistoricoPeriodo']);
 //Route::get('/dimensao/parametro',[ParametroController::class,'dimensaoParametro']);
 Route::get('/dimensao/parametro/{iddimensao}',[ParametroController::class,'dimensaoParametro']);
+Route::get('avaliacao/documento/{pasta}/{documento}',[AvaliacaoHasDocenteController::class,'downloadDocumento']);
 Route::put('/avaliacao/validar',[AvaliacaoHasDocenteController::class, 'validaravaliacao']);
 Route::resources([
                    'grauAcademico'=>GrauAcademicoController::class,
